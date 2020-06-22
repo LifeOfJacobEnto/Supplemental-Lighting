@@ -16,9 +16,9 @@ Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020.csv", heade
 head(Complete)
 
 #rename frist column header to TreatmentName using dplyr's rename()
-# Complete %>% rename(TreatmentName = ï..TreatmentName)
+# Complete %>% rename(TreatmentName = ?..TreatmentName)
   #using base functions
-   names(Complete)[names(Complete) == "ï..TreatmentName"] = "TreatmentName"
+   names(Complete)[names(Complete) == "?..TreatmentName"] = "TreatmentName"
   #or using the location of the column
     #names(Complete)[1] = "TreatmentName"
     #colnames(Complete)
@@ -185,3 +185,5 @@ hist(as.numeric(Complete$OvipositionPeriod))
 ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$OvipositionPeriod)) + 
   geom_boxplot() +
   xlab("Treatment")
+
+#This is a test
