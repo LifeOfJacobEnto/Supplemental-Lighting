@@ -5,8 +5,6 @@ library(tidyverse)
 #library(dplyr)
 #library(tidyr)
 library(xlsx)
-               
-MUHAHAHAHAHHAHAAHAH I HAVE TAKEN OVER YOUR CODE! >:)
 
 #choose the wd
 setwd(choose.dir())
