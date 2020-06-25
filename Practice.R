@@ -12,13 +12,13 @@ setwd(choose.dir())
 getwd()
 
 #get the data
-Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020.csv", header = TRUE, stringsAsFactors=FALSE)
+Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020.csv", header = TRUE, stringsAsFactors=FALSE, fileEncoding="UTF-8-BOM") #added fileEncoding="UTF-8-BOM" to remove "i.." from first column header https://stackoverflow.com/questions/24568056/rs-read-csv-prepending-1st-column-name-with-junk-text/24568505
 head(Complete)
 
 #rename frist column header to TreatmentName using dplyr's rename()
 # Complete %>% rename(TreatmentName = ?..TreatmentName)
   #using base functions
-   names(Complete)[names(Complete) == "?..TreatmentName"] = "TreatmentName"
+    #names(Complete)[names(Complete) == "ï..TreatmentName"] = "TreatmentName"
   #or using the location of the column
     #names(Complete)[1] = "TreatmentName"
     #colnames(Complete)
@@ -161,10 +161,14 @@ ggplot(Complete, aes(x= DaysFAlive2020, y= TotalEggs)) +
 #Fecundity as rate 
 Complete$Eggsperfemaleperday = Complete$TotalEggs/Complete$DaysFAlive2020
 hist(Complete$Eggsperfemaleperday)
-ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$Eggsperfemaleperday)) + 
+ggplot(Complete, aes(x= as.factor(TreatmentName), y= Eggsperfemaleperday)) + 
   geom_boxplot() +
   xlab("Treatment")
 
+#perform ANOVA and Tukey HSD on Eggs/Female/Day
+FecundityANOVA=aov(Complete$Eggsperfemaleperday~Complete$TreatmentName)
+FecundityTukeyHSD=HSD.test(FecundityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+FecundityTukeyHSD
 
 
 
@@ -175,15 +179,24 @@ ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$Eggsperfe
 #Preoviposition period
 hist(as.numeric(Complete$PreOvipositionPeriod))
 
-ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$PreOvipositionPeriod)) + 
+ggplot(Complete, aes(x= as.factor(TreatmentName), y= PreOvipositionPeriod)) + 
   geom_boxplot() +
   xlab("Treatment")
+
+#perform ANOVA and Tukey HSD on Preoviposition Period
+PreoviANOVA=aov(Complete$PreOvipositionPeriod~Complete$TreatmentName)
+PreoviTukeyHSD=HSD.test(PreoviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+PreoviTukeyHSD
+
 
 #Oviposition period
 hist(as.numeric(Complete$OvipositionPeriod))
 
-ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$OvipositionPeriod)) + 
+ggplot(Complete, aes(x= as.factor(TreatmentName), y= OvipositionPeriod)) + 
   geom_boxplot() +
   xlab("Treatment")
 
-#This is a test
+#perform ANOVA and Tukey HSD on Oviposition Period
+OviANOVA=aov(Complete$OvipositionPeriod~Complete$TreatmentName)
+OviTukeyHSD=HSD.test(OviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+OviTukeyHSD
