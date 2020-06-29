@@ -22,13 +22,17 @@ head(Complete)
     #names(Complete)[1] = "TreatmentName"
     #colnames(Complete)
 
-    
 #make Complete into a tibble
 tbl_df(Complete)
 
 
-dim(Complete)
+
+# Data Cleanup
+
+
+
 # Filter out squished or MIA pairs 
+dim(Complete)
 Complete=filter(Complete, 
                 DaysMAlive2020 != "#VALUE!",
                 DaysFAlive2020 != "#VALUE!"
@@ -119,6 +123,7 @@ boxplot(Complete$DaysAlive2020~Complete$TreatmentName)
 LongevityANOVA=aov(Complete$DaysAlive2020~Complete$TreatmentName)
 
 #perform Tukey HSD post hoc test
+
 #summary(LongevityANOVA)
 #LongevityTukey=TukeyHSD(LongevityANOVA)
 #LongevityTukey
