@@ -1,4 +1,4 @@
-# Prep
+# Prep --------------------------------------------------------------------
 
 rm(list=ls())
 
@@ -6,7 +6,8 @@ rm(list=ls())
 library(tidyverse)
 #library(dplyr)
 #library(tidyr)
-library(xlsx)
+library("agricolae")
+library("ggplot2")
 
 # Choose the wd
 setwd(choose.dir())
@@ -14,7 +15,7 @@ setwd(choose.dir())
 getwd()
 
 
-# Get data and cleanup
+# Get Openrefined Data ----------------------------------------------------
 
 # Development Rate
 Rate = tbl_df(read.csv("Development Rate Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
@@ -30,3 +31,10 @@ summary(Mort)
 Tibia = tbl_df(read.csv("Development Tibial Length Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
 head(Tibia)
 summary(Tibia)
+
+
+# Development Rate Analysis -----------------------------------------------
+
+# ? make Nymphal Instar Development Time into long format?
+
+# ANOVA
