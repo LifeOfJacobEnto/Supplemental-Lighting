@@ -1,0 +1,65 @@
+[
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "ï»¿Block",
+    "newColumnName": "Block",
+    "description": "Rename column ï»¿Block to Block"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "n",
+    "description": "Remove column n"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "AVG",
+    "description": "Remove column AVG"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "StDev",
+    "description": "Remove column StDev"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "SE",
+    "description": "Remove column SE"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "Column",
+    "description": "Remove column Column"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Tibia",
+    "newColumnName": "Tibial Length (mm)",
+    "description": "Rename column Tibia to Tibial Length (mm)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Tibial Length (mm)",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Tibial Length (mm) using expression value.toNumber()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Rep",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column Rep using expression value.toNumber()"
+  }
+]
