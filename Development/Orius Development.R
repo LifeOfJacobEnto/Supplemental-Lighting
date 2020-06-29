@@ -8,24 +8,25 @@ library(tidyverse)
 #library(tidyr)
 library(xlsx)
 
-#choose the wd
-setwd(".") # "." refers to the file that this script is already in
+# Choose the wd
+setwd(choose.dir())
+#setwd("./Openrefined data") # "." refers to the file that this script is already in
 getwd()
 
 
 # Get data and cleanup
 
 # Development Rate
-Rate = tbl_df(read.csv("Development Rate raw csv.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
+Rate = tbl_df(read.csv("Development Rate Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
 head(Rate)
 summary(Rate)
 
 # % Mortality
-Mort = tbl_df(read.csv("Development Mortality raw csv.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
+Mort = tbl_df(read.csv("Development Mortality Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
 head(Mort)
 summary(Mort)
 
 # Tibial Length
-Tibia = tbl_df(read.csv("Development Tibial Length raw csv.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
+Tibia = tbl_df(read.csv("Development Tibial Length Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
 head(Tibia)
 summary(Tibia)
