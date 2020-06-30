@@ -1,0 +1,13 @@
+[
+  {
+    "op": "core/transpose-columns-into-rows",
+    "startColumnName": "N1d",
+    "columnCount": 5,
+    "ignoreBlankCells": true,
+    "fillDown": true,
+    "separator": null,
+    "keyColumnName": "Nymphal Instar",
+    "valueColumnName": "Development Time (days)",
+    "description": "Transpose cells in 5 column(s) starting with N1d into rows in two new columns named Nymphal Instar and Development Time (days)"
+  }
+]

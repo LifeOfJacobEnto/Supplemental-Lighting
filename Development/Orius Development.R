@@ -18,17 +18,19 @@ getwd()
 # Get Openrefined Data ----------------------------------------------------
 
 # Development Rate
-Rate = tbl_df(read.csv("Development Rate Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
+Rate = tbl_df(read.csv("Development Rate Openrefined.csv", header = TRUE))
 head(Rate)
 summary(Rate)
+# Development Rate with Nymphal Instars in 'long' format
+Longrate = Rate = tbl_df(read.csv("Development Rate Openrefined Long.csv", header = TRUE))
 
 # % Mortality
-Mort = tbl_df(read.csv("Development Mortality Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
+Mort = tbl_df(read.csv("Development Mortality Openrefined.csv", header = TRUE))
 head(Mort)
 summary(Mort)
 
 # Tibial Length
-Tibia = tbl_df(read.csv("Development Tibial Length Openrefined.csv", header = TRUE, fileEncoding="UTF-8-BOM"))
+Tibia = tbl_df(read.csv("Development Tibial Length Openrefined.csv", header = TRUE))
 head(Tibia)
 summary(Tibia)
 
