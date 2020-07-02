@@ -82,7 +82,6 @@ hist(as.numeric(Complete$PostOvipositionPeriod))
 hist(as.numeric(Complete$DaysMAlive2020))
 hist(as.numeric(Complete$DaysFAlive2020))
 
-
 #need to combine DaysMAlive and DaysFAlive (or just use SexColumn datasheet) by...
 
 #1. using SexColumn datasheet, apply same filters (no MIA or 0DaysAlive)
@@ -115,7 +114,26 @@ dim(Complete)
 
 
 #visualization of DaysAlive
-hist(as.numeric(Complete$DaysAlive2020))
+hist(as.numeric(Complete$DaysAlive2020)) # all values in DaysAlive
+ggplot(Complete, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from https://www.r-graph-gallery.com/histogram_several_group.html)
+  geom_histogram()
+ggplot(Complete, aes(x = DaysAlive2020, color = TreatmentName, fill = TreatmentName)) + #separated by Sex and Treatment
+  geom_histogram() +
+  xlab("Treatment") +
+  ylab("Frequency") +
+  facet_wrap(Complete$Sex)
+#mutiple pots produced by a loop, then arranged in a group
+plots = list()
+for (i in Complete$TreatmentName) {
+  plots[[i]] = 
+  ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) +
+    geom_histogram() +
+    ylab("Frequency")
+}
+library(grid)
+do.call(grid.arrange, plots)
+
+
 boxplot(Complete$DaysAlive2020~Complete$TreatmentName)
 
 
