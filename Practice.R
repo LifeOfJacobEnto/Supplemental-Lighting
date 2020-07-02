@@ -122,6 +122,7 @@ ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated 
   xlab("Treatment") +
   ylab("Frequency") +
   facet_wrap(~Complete$TreatmentName) # I dont know why ~ is important but it is
+    # could separate the sexes as well by adding facet_wrap(~Complete$TreatmentName + Sex)
   # Could've tried to create multiple plots using a loop but doesnt work because Treatment is a column in long form, not multiple columns in wide form, though couldve tried (https://stackoverflow.com/questions/9315611/grid-of-multiple-ggplot2-plots-which-have-been-made-in-a-for-loop using gridExtra package: https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.htmltry) 
     # plots = list()
     # uniquetreatments = unique(Complete$TreatmentName)
