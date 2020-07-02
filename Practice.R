@@ -119,9 +119,12 @@ ggplot(Complete, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from 
   geom_histogram()
 ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated by Sex and Treatment (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram() +
-  xlab("Treatment") +
+  xlab("Days Alive") +
   ylab("Frequency") +
-  facet_wrap(~Complete$TreatmentName) # I dont know why ~ is important but it is
+  facet_wrap(~factor(Complete$TreatmentName, levels = c("S", "W", "HPS", "HB", "LB", "HR", "LR")), ncol = 3, scales = "fixed") 
+    # I dont know why ~ is important but it is
+    # order the facets by using the factor function on TreatmentName, which identifies that vector as a factor and then specifies the order of the levels using levels =, from https://stackoverflow.com/questions/15116081/controlling-order-of-facet-grid-facet-wrap-in-ggplot2 
+    # also see https://www.rdocumentation.org/packages/ggplot2/versions/1.0.0/topics/facet_wrap
     # could separate the sexes as well by adding facet_wrap(~Complete$TreatmentName + Sex)
   # Could've tried to create multiple plots using a loop but doesnt work because Treatment is a column in long form, not multiple columns in wide form, though couldve tried (https://stackoverflow.com/questions/9315611/grid-of-multiple-ggplot2-plots-which-have-been-made-in-a-for-loop using gridExtra package: https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.htmltry) 
     # plots = list()
