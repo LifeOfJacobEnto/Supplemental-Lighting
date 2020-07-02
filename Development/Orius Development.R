@@ -82,10 +82,10 @@ boxplot(Rate$Total.Development..days. ~ Rate$Block + Rate$Treatment, xlab = "Tre
 # make a means plot to illustrate any interaction effect
 level_order <- c('W', 'S', 'HPS', 'HB', 'HR', 'LB', 'LR')
 meansplot = 
-  ggplot(data= Groupedsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = Block, col = Block)) +
+  ggplot(data= Groupedsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = Block, col = Block)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
   geom_line() + # to colour code by Block, could add color = Groupedsummary$Block within geom_line() 
   geom_point()
-  # geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
+  # geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
 meansplot
 # Yes there is a sig diff, but this may be due to low sample size and some Treatments not having samples in both Blocks
 
