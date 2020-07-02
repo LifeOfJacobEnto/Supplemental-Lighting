@@ -117,24 +117,28 @@ dim(Complete)
 hist(as.numeric(Complete$DaysAlive2020)) # all values in DaysAlive
 ggplot(Complete, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram()
-ggplot(Complete, aes(x = DaysAlive2020, color = TreatmentName, fill = TreatmentName)) + #separated by Sex and Treatment
+ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated by Sex and Treatment (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram() +
   xlab("Treatment") +
   ylab("Frequency") +
-  facet_wrap(Complete$Sex)
-#mutiple pots produced by a loop, then arranged in a group
-plots = list()
-for (i in Complete$TreatmentName) {
-  plots[[i]] = 
-  ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) +
-    geom_histogram() +
-    ylab("Frequency")
-}
-library(grid)
-do.call(grid.arrange, plots)
-
-
+  facet_wrap(~Complete$TreatmentName) # I dont know why ~ is important but it is
+  # Could've tried to create multiple plots using a loop but doesnt work because Treatment is a column in long form, not multiple columns in wide form, though couldve tried (https://stackoverflow.com/questions/9315611/grid-of-multiple-ggplot2-plots-which-have-been-made-in-a-for-loop using gridExtra package: https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.htmltry) 
+    # plots = list()
+    # uniquetreatments = unique(Complete$TreatmentName)
+    # for (i in uniquetreatments) {
+    #  plots[[i]] = 
+    #  ggplot(Complete, aes(x = filter(DaysAlive2020 == i), color = Sex, fill = Sex)) +
+    #    geom_histogram() +
+    #    ylab("Frequency")
+    #}
+    #library(gridExtra)
+    #grid.arrange(plots, ncol = 3)
 boxplot(Complete$DaysAlive2020~Complete$TreatmentName)
+boxplot(Complete$DaysAlive2020~Complete$TreatmentName+Complete$Sex)
+ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName, color = Sex, fill = Sex)) +
+  geom_boxplot() +
+  xlab("Treatment")
+
 
 
 #perform ANOVA
