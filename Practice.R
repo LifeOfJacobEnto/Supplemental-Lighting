@@ -5,6 +5,7 @@ library(tidyverse)
 #library(dplyr)
 #library(tidyr)
 library(xlsx)
+library(ggplot2)
 
 #choose the wd
 setwd(choose.dir())
@@ -77,7 +78,6 @@ hist(as.numeric(Complete$PostOvipositionPeriod))
 
 # Longevity
 
-
 #visualization
 hist(as.numeric(Complete$DaysMAlive2020))
 hist(as.numeric(Complete$DaysFAlive2020))
@@ -112,6 +112,11 @@ dim(Complete)
 Complete=Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
 dim(Complete)
 
+# Summary stats for DaysAlive2020 (Mean, SD, SE, n)
+Longevitysummary = Complete %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
+GroupedComplete = Complete %>% group_by(TreatmentName, Sex)
+GroupedLongevitysummary = GroupedComplete %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
+GroupedLongevitysummary
 
 #visualization of DaysAlive
 hist(as.numeric(Complete$DaysAlive2020)) # all values in DaysAlive
@@ -121,7 +126,7 @@ ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated 
   geom_histogram() +
   xlab("Days Alive") +
   ylab("Frequency") +
-  facet_wrap(~factor(Complete$TreatmentName, levels = c("S", "W", "HPS", "HB", "LB", "HR", "LR")), ncol = 3, scales = "fixed") 
+  facet_wrap(~factor(Complete$TreatmentName, levels = c("S", "W", "HPS", "HB", "HR", "LB", "LR")), ncol = 3, scales = "fixed") 
     # I dont know why ~ is important but it is
     # order the facets by using the factor function on TreatmentName, which identifies that vector as a factor and then specifies the order of the levels using levels =, from https://stackoverflow.com/questions/15116081/controlling-order-of-facet-grid-facet-wrap-in-ggplot2 
     # also see https://www.rdocumentation.org/packages/ggplot2/versions/1.0.0/topics/facet_wrap
@@ -143,30 +148,31 @@ ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName, color = Sex, fill = S
   geom_boxplot() +
   xlab("Treatment")
 
+# ANOVA
+LongevityANOVA=aov(Complete$DaysAlive2020~Complete$TreatmentName + Complete$Sex + Complete$TreatmentName:Complete$Sex)
+summary(LongevityANOVA)
 
+# Tukey HSD post hoc tests
+  #summary(LongevityANOVA)
+  #LongevityTukey=TukeyHSD(LongevityANOVA)
+  #LongevityTukey
+  #plot(LongevityTukey)
+#or using agricolae package (from https://rpubs.com/aaronsc32/post-hoc-analysis-tukey)
+#install.packages("agricolae")
+library("agricolae")
+LongevityTukeyTreatment = HSD.test(LongevityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+LongevityTukeyTreatment
 
-#perform ANOVA
-LongevityANOVA=aov(Complete$DaysAlive2020~Complete$TreatmentName)
-
-#perform Tukey HSD post hoc test
-
-#summary(LongevityANOVA)
-#LongevityTukey=TukeyHSD(LongevityANOVA)
-#LongevityTukey
-#plot(LongevityTukey)
-
-  #or using agricolae package (from https://rpubs.com/aaronsc32/post-hoc-analysis-tukey)
-  #install.packages("agricolae")
-  library("agricolae")
-  LongevityTukey2=HSD.test(LongevityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
-  LongevityTukey2
-
-
-#graph results usign ggplot2
-library("ggplot2")
-ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$DaysAlive2020)) + 
-  geom_boxplot() +
-  xlab("Treatment")
+# Means plot to visualize interaction effect
+Longevitymeansplot = 
+  ggplot(data= GroupedLongevitysummary, aes(y = Mean, x = factor(TreatmentName, levels = c("S", "W", "HPS", "HB", "HR", "LB", "LR")), group = Sex, col = Sex, fill = Sex)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
+  geom_line() + # to colour code by Sex, could add color = GroupedLongevitysummary$Sex within geom_line() 
+  geom_point() +
+  xlab("Treatment") +
+  ylab("Mean Longevity (days)")
+# geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
+Longevitymeansplot
+# Thus, there is an interaction effect in the Low intensity Treatments, where males live unusually longer than females
 
 
 
