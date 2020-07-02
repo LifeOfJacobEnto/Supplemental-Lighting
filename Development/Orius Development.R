@@ -52,7 +52,7 @@ Rate %>% summarise(Mean = mean(Total.Development..days.), SD = sd(Total.Developm
 Groupedrate = Rate %>% group_by(Block, Treatment)
 Groupedsummary = Groupedrate %>% summarise(Mean = mean(Total.Development..days.), SD = sd(Total.Development..days.), SE = sd(Total.Development..days.)/sqrt(length(Total.Development..days.)), n = length(Total.Development..days.))
 Groupedsummary
-#then for All Nymphal Instars NOT WORKING
+#then for All Nymphal Instars NOT WORKING (trying from https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645)
 Groupedrate %>% summarise(across(c("N1d":"Total.Development..days.")), .funs = (Mean = mean(), SD = sd(), SE = sd()/sqrt()/length(), n = length()))
 
 # Boxplot
