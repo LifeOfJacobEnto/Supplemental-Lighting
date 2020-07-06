@@ -237,14 +237,13 @@ absMax = max(Grouplabels$Max)
 ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered 
   geom_boxplot() + 
   xlab("Treatment") +
-  ylab("Fecundity (eggs/female/day") +
+  ylab("Fecundity (eggs/female/day)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
 
 # Pre-oviposition Period
 
-# Preoviposition period
 hist(as.numeric(Complete$PreOvipositionPeriod))
 
 ggplot(Complete, aes(x = as.factor(TreatmentName), y = PreOvipositionPeriod)) + 
@@ -275,6 +274,7 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
 
 
 # Oviposition period
+
 hist(as.numeric(Complete$OvipositionPeriod))
 
 ggplot(Complete, aes(x = as.factor(TreatmentName), y = OvipositionPeriod)) + 
