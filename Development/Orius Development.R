@@ -70,26 +70,44 @@ TotaldevANOVA= aov(Rate$Total.Development..days. ~ Rate$Treatment)
 summary(TotaldevANOVA)
 
 # Tukey HSD
-TotaldevTukeyHSD=HSD.test(TotaldevANOVA, trt = 'Rate$Treatment', group = TRUE)
-TotaldevTukeyHSD
+TotaldevTukey = HSD.test(TotaldevANOVA, trt = 'Rate$Treatment', group = TRUE)
+TotaldevTukey
 
 # ? is there a difference between Blocks? ie. use 2-way anova with Block and Treatment including interaction effect (from http://www.sthda.com/english/wiki/two-way-anova-test-in-r)
 Totaldev2wayANOVA = aov(Rate$Total.Development..days. ~ Rate$Block + Rate$Treatment + Rate$Block:Rate$Treatment)
 summary(Totaldev2wayANOVA)
-TotaldevTukeyHSD2 = HSD.test(Totaldev2wayANOVA, trt = 'Rate$Block', group = TRUE)
-TotaldevTukeyHSD2
+TotaldevTukeyBlock = HSD.test(Totaldev2wayANOVA, trt = 'Rate$Block', group = TRUE)
+TotaldevTukeyBlock
+TotaldevTukeyTreatment = HSD.test(Totaldev2wayANOVA, trt = 'Rate$Treatment', group = TRUE)
+TotaldevTukeyTreatment
 boxplot(Rate$Total.Development..days. ~ Rate$Block + Rate$Treatment, xlab = "Treatment", ylab = "Total Development (days)")
 # make a means plot to illustrate any interaction effect
 level_order <- c('W', 'S', 'HPS', 'HB', 'HR', 'LB', 'LR')
 meansplot = 
-  ggplot(data= Groupedsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = Block, col = Block)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
+  ggplot(data = Groupedsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = Block, col = Block)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
   geom_line() + # to colour code by Block, could add color = Groupedsummary$Block within geom_line() 
-  geom_point()
+  geom_point() +
+  ylab("Mean Total Development (days)")
   # geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
 meansplot
-# Yes there is a sig diff, but this may be due to low sample size and some Treatments not having samples in both Blocks
+# Yes there is a sig diff, but some Treatments don't having samples in both Blocks (W, LR)
 
-# Boxplot with Sig. Groups
+# Boxplot with significant groups (as in Longevity)
+Grouplabels = tbl_df(TotaldevTukeyTreatment$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
+Grouplabels$TreatmentName = row.names(TotaldevTukeyTreatment$groups)     # create a column with the TreatmentNames from the row names
+Max = TotaldevTukeyTreatment$means["Max"]                                # extract the maximum value from the tukey test
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
+Grouplabels$aboveMax = Grouplabels$Max + 1                               # create a new column for placement above the max value
+Grouplabels
+absMax = max(Grouplabels$Max)
+Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
+ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered
+  geom_boxplot(aes(color = factor(Block))) + 
+  xlab("Treatment") +
+  ylab("Total Development (days)") +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
+    # to put labels all at same height, y = absMax + absMax*0.05
 
 # Normality and Assumptions
 
