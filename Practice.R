@@ -174,6 +174,18 @@ Longevitymeansplot =
 Longevitymeansplot
 # Thus, there is an interaction effect in the Low intensity Treatments, where males live unusually longer than females
 
+# Boxplot with significant groups using multcompView package instead of agricolae (from https://www.r-graph-gallery.com/84-tukey-test)
+# Or extract the groups from agricolae tukey test myself, then use geom_text to put onto graph 
+Grouplabels = LongevityTukeyTreatment$groups["groups"]
+Grouplabels$x = row.names(LongevityTukeyTreatment$groups)
+Grouplabels$y = LongevityTukeyTreatment$means["Max"]+5
+ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName, color = Sex, fill = Sex)) +
+  geom_boxplot() +
+  xlab("Treatment") +
+  # geom_text(aes(label = Grouplabels), position=position_dodge(width=0.9), vjust=-0.25) # (modified from https://intellipaat.com/community/16343/how-to-put-labels-over-geombar-for-each-bar-in-r-with-ggplot2 or https://stackoverflow.com/questions/6455088/how-to-put-labels-over-geom-bar-in-r-with-ggplot2)
+  # stat_summary(geom = 'text', label = LABELS, fun = max, vjust = -1) # (modified from https://stackoverflow.com/questions/48029549/labeling-individual-boxes-in-a-ggplot-boxplot)
+  geom_text(aes(x = Grouplabels$x, y = Grouplabels$y, label = Grouplabels$groups)) # (modified from comment 2 https://stackoverflow.com/questions/48029549/labeling-individual-boxes-in-a-ggplot-boxplot)
+
 
 
 # Fecundity
