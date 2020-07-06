@@ -8,7 +8,7 @@ library(xlsx)
 library(ggplot2)
 
 #choose the wd
-setwd(choose.dir())
+setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git")
 getwd()
 
 #get the data
@@ -175,16 +175,26 @@ Longevitymeansplot
 # Thus, there is an interaction effect in the Low intensity Treatments, where males live unusually longer than females
 
 # Boxplot with significant groups using multcompView package instead of agricolae (from https://www.r-graph-gallery.com/84-tukey-test)
-# Or extract the groups from agricolae tukey test myself, then use geom_text to put onto graph 
-Grouplabels = LongevityTukeyTreatment$groups["groups"]
-Grouplabels$x = row.names(LongevityTukeyTreatment$groups)
-Grouplabels$y = LongevityTukeyTreatment$means["Max"]+5
-ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName, color = Sex, fill = Sex)) +
-  geom_boxplot() +
+# Or extract the groups from agricolae tukey test myself, then use geom_text to put onto graph (modified from many links: https://intellipaat.com/community/16343/how-to-put-labels-over-geombar-for-each-bar-in-r-with-ggplot2
+                                                                                                                        # https://stackoverflow.com/questions/6455088/how-to-put-labels-over-geom-bar-in-r-with-ggplot2
+                                                                                                                        # https://stackoverflow.com/questions/48029549/labeling-individual-boxes-in-a-ggplot-boxplot
+                                                                                                                        # https://www.researchgate.net/post/R_How_to_add_labels_for_significant_differences_on_boxplot_ggplot2
+                                                                                                                        # https://stackoverflow.com/questions/23328582/add-multiple-labels-on-ggplot2-boxplot
+Grouplabels = tbl_df(LongevityTukeyTreatment$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble
+Grouplabels$TreatmentName = row.names(LongevityTukeyTreatment$groups)     # create a column with the TreatmentNames from the row names
+Max = LongevityTukeyTreatment$means["Max"]                                # extract the maximum value from the tukey test
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
+Grouplabels$aboveMax = Grouplabels$Max + 10                               # create a new column for placement above the max value
+Grouplabels
+ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName)) +             # plot 
+  geom_boxplot(aes(color = Sex, fill = Sex)) +                            # need to put Sex aes in the boxplot() so that the geom_text() isn't trying to label across Sex??
   xlab("Treatment") +
-  # geom_text(aes(label = Grouplabels), position=position_dodge(width=0.9), vjust=-0.25) # (modified from https://intellipaat.com/community/16343/how-to-put-labels-over-geombar-for-each-bar-in-r-with-ggplot2 or https://stackoverflow.com/questions/6455088/how-to-put-labels-over-geom-bar-in-r-with-ggplot2)
-  # stat_summary(geom = 'text', label = LABELS, fun = max, vjust = -1) # (modified from https://stackoverflow.com/questions/48029549/labeling-individual-boxes-in-a-ggplot-boxplot)
-  geom_text(aes(x = Grouplabels$x, y = Grouplabels$y, label = Grouplabels$groups)) # (modified from comment 2 https://stackoverflow.com/questions/48029549/labeling-individual-boxes-in-a-ggplot-boxplot)
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
+
+
+
+
 
 
 
