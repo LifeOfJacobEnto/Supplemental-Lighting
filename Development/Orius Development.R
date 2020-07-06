@@ -66,8 +66,8 @@ summarystatfunctions = list(
   SE = ~ sd(.x)/sqrt(length(.x)), 
   n = ~ length(.x)
 )
-Groupedsummary = Groupedrate %>% summarise(across(.cols = N1d : Total.Development..days., .fns = summarystatfunctions, .names = "{col}.{fn}"))
-Groupedsummary
+Groupedsummaryallnymphalinstars = Groupedrate %>% summarise(across(.cols = N1d : Total.Development..days., .fns = summarystatfunctions, .names = "{col}.{fn}"))
+Groupedsummaryallnymphalinstars
 
 # Boxplot
 boxplot(Rate$Total.Development..days. ~ Rate$Treatment, xlab = "Treatment", ylab = "Total Development (days)")
