@@ -30,8 +30,6 @@ Complete=tbl_df(Complete)
 
 # Data Cleanup
 
-
-
 # Filter out squished or MIA pairs 
 dim(Complete)
 Complete=filter(Complete, 
@@ -109,47 +107,48 @@ hist(as.numeric(Complete$DaysFAlive2020))
 
 #2. using Complete by combining DaysMAlive2020 and DaysFAlive2020 using gather
 dim(Complete)
-Complete=Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
-dim(Complete)
+CompleteSexcombined=Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
+dim(CompleteSexcombined)
 
 # Summary stats for DaysAlive2020 (Mean, SD, SE, n)
-Longevitysummary = Complete %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
-GroupedComplete = Complete %>% group_by(TreatmentName, Sex)
+Longevitysummary = CompleteSexcombined %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
+GroupedComplete = CompleteSexcombined %>% group_by(TreatmentName, Sex)
 GroupedLongevitysummary = GroupedComplete %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
 GroupedLongevitysummary
 
 #visualization of DaysAlive
-hist(as.numeric(Complete$DaysAlive2020)) # all values in DaysAlive
-ggplot(Complete, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from https://www.r-graph-gallery.com/histogram_several_group.html)
+hist(as.numeric(CompleteSexcombined$DaysAlive2020)) # all values in DaysAlive
+ggplot(CompleteSexcombined, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram()
-ggplot(Complete, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated by Sex and Treatment (from https://www.r-graph-gallery.com/histogram_several_group.html)
+Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
+ggplot(CompleteSexcombined, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated by Sex and Treatment (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram() +
   xlab("Days Alive") +
   ylab("Frequency") +
-  facet_wrap(~factor(Complete$TreatmentName, levels = c("S", "W", "HPS", "HB", "HR", "LB", "LR")), ncol = 3, scales = "fixed") 
+  facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed") 
     # I dont know why ~ is important but it is
     # order the facets by using the factor function on TreatmentName, which identifies that vector as a factor and then specifies the order of the levels using levels =, from https://stackoverflow.com/questions/15116081/controlling-order-of-facet-grid-facet-wrap-in-ggplot2 
     # also see https://www.rdocumentation.org/packages/ggplot2/versions/1.0.0/topics/facet_wrap
-    # could separate the sexes as well by adding facet_wrap(~Complete$TreatmentName + Sex)
+    # could separate the sexes as well by adding facet_wrap(~CompleteSexcombined$TreatmentName + Sex)
   # Could've tried to create multiple plots using a loop but doesnt work because Treatment is a column in long form, not multiple columns in wide form, though couldve tried (https://stackoverflow.com/questions/9315611/grid-of-multiple-ggplot2-plots-which-have-been-made-in-a-for-loop using gridExtra package: https://cran.r-project.org/web/packages/gridExtra/vignettes/arrangeGrob.htmltry) 
     # plots = list()
-    # uniquetreatments = unique(Complete$TreatmentName)
+    # uniquetreatments = unique(CompleteSexcombined$TreatmentName)
     # for (i in uniquetreatments) {
     #  plots[[i]] = 
-    #  ggplot(Complete, aes(x = filter(DaysAlive2020 == i), color = Sex, fill = Sex)) +
+    #  ggplot(CompleteSexcombined, aes(x = filter(DaysAlive2020 == i), color = Sex, fill = Sex)) +
     #    geom_histogram() +
     #    ylab("Frequency")
     #}
     #library(gridExtra)
     #grid.arrange(plots, ncol = 3)
-boxplot(Complete$DaysAlive2020~Complete$TreatmentName)
-boxplot(Complete$DaysAlive2020~Complete$TreatmentName+Complete$Sex)
-ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName, color = Sex, fill = Sex)) +
+boxplot(CompleteSexcombined$DaysAlive2020~CompleteSexcombined$TreatmentName)
+boxplot(CompleteSexcombined$DaysAlive2020~CompleteSexcombined$TreatmentName+CompleteSexcombined$Sex)
+ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = TreatmentName, color = Sex, fill = Sex)) +
   geom_boxplot() +
   xlab("Treatment")
 
 # ANOVA
-LongevityANOVA=aov(Complete$DaysAlive2020~Complete$TreatmentName + Complete$Sex + Complete$TreatmentName:Complete$Sex)
+LongevityANOVA=aov(CompleteSexcombined$DaysAlive2020~CompleteSexcombined$TreatmentName + CompleteSexcombined$Sex + CompleteSexcombined$TreatmentName:CompleteSexcombined$Sex)
 summary(LongevityANOVA)
 
 # Tukey HSD post hoc tests
@@ -160,12 +159,12 @@ summary(LongevityANOVA)
 #or using agricolae package (from https://rpubs.com/aaronsc32/post-hoc-analysis-tukey)
 #install.packages("agricolae")
 library("agricolae")
-LongevityTukeyTreatment = HSD.test(LongevityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+LongevityTukeyTreatment = HSD.test(LongevityANOVA, trt = 'CompleteSexcombined$TreatmentName', group = TRUE)
 LongevityTukeyTreatment
 
 # Means plot to visualize interaction effect
 Longevitymeansplot = 
-  ggplot(data= GroupedLongevitysummary, aes(y = Mean, x = factor(TreatmentName, levels = c("S", "W", "HPS", "HB", "HR", "LB", "LR")), group = Sex, col = Sex, fill = Sex)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
+  ggplot(data= GroupedLongevitysummary, aes(y = Mean, x = factor(TreatmentName, levels = Treatmentlevelsorder), group = Sex, col = Sex, fill = Sex)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
   geom_line() + # to colour code by Sex, could add color = GroupedLongevitysummary$Sex within geom_line() 
   geom_point() +
   xlab("Treatment") +
@@ -180,82 +179,125 @@ Longevitymeansplot
                                                                                                                         # https://stackoverflow.com/questions/48029549/labeling-individual-boxes-in-a-ggplot-boxplot
                                                                                                                         # https://www.researchgate.net/post/R_How_to_add_labels_for_significant_differences_on_boxplot_ggplot2
                                                                                                                         # https://stackoverflow.com/questions/23328582/add-multiple-labels-on-ggplot2-boxplot
-Grouplabels = tbl_df(LongevityTukeyTreatment$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble
+Grouplabels = tbl_df(LongevityTukeyTreatment$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
 Grouplabels$TreatmentName = row.names(LongevityTukeyTreatment$groups)     # create a column with the TreatmentNames from the row names
 Max = LongevityTukeyTreatment$means["Max"]                                # extract the maximum value from the tukey test
-Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
 Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
 Grouplabels$aboveMax = Grouplabels$Max + 10                               # create a new column for placement above the max value
 Grouplabels
-ggplot(Complete, aes(y = DaysAlive2020, x = TreatmentName)) +             # plot 
-  geom_boxplot(aes(color = Sex, fill = Sex)) +                            # need to put Sex aes in the boxplot() so that the geom_text() isn't trying to label across Sex??
+absMax = max(Grouplabels$Max)
+ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered
+  geom_boxplot(aes(color = Sex, fill = Sex)) +                            # need to put Sex aes in the boxplot() so that the geom_text() is the same dimensions as the ggplot(aes()))??
   xlab("Treatment") +
+  ylab("Longevity (days)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
-
-
-
-
+    # to put labels all at same height, y = absMax + absMax*0.05
 
 
 
 # Fecundity
 
-
-#visualization
+# visualization
 hist(as.numeric(Complete$TotalEggs))
 
-ggplot(Complete, aes(x= as.factor(Complete$TreatmentName), y= Complete$TotalEggs)) + 
+ggplot(Complete, aes(x = as.factor(TreatmentName), y = TotalEggs)) + 
   geom_boxplot() +
   xlab("Treatment")
         
 regressioneggsdays=lm(Complete$TotalEggs~Complete$DaysFAlive2020)
 summary(regressioneggsdays)
-ggplot(Complete, aes(x= DaysFAlive2020, y= TotalEggs)) + 
+ggplot(Complete, aes(x = DaysFAlive2020, y = TotalEggs)) + 
   geom_point() +
-  geom_smooth(method=lm)
-#There is a correlation between TotalEggs and DaysFAlive2020, so control for days alive by expressing fecundity as a rate?
-  #Problem: there are some pairs which lived a long time, but produced very few eggs, possibly because the male died early, or more likely because the beans were reused when there were no eggs found but if an egg was missed and then found later it could result in this error
+  geom_smooth(method = lm)
+# There is a correlation between TotalEggs and DaysFAlive2020, so control for days alive by expressing fecundity as a rate?
+  # Problem: there are some pairs which lived a long time, but produced very few eggs, possibly because the male died early, or more likely because the beans were reused when there were no eggs found but if an egg was missed and then found later it could result in this error
 
-#Fecundity as rate 
+# Fecundity as rate 
 Complete$Eggsperfemaleperday = Complete$TotalEggs/Complete$DaysFAlive2020
 hist(Complete$Eggsperfemaleperday)
-ggplot(Complete, aes(x= as.factor(TreatmentName), y= Eggsperfemaleperday)) + 
+ggplot(Complete, aes(x = as.factor(TreatmentName), y = Eggsperfemaleperday)) + 
   geom_boxplot() +
   xlab("Treatment")
 
-#perform ANOVA and Tukey HSD on Eggs/Female/Day
-FecundityANOVA=aov(Complete$Eggsperfemaleperday~Complete$TreatmentName)
-FecundityTukeyHSD=HSD.test(FecundityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
-FecundityTukeyHSD
+# perform ANOVA and Tukey HSD on Eggs/Female/Day
+FecundityANOVA = aov(Complete$Eggsperfemaleperday ~ Complete$TreatmentName)
+FecundityTukey = HSD.test(FecundityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+FecundityTukey
+
+# Boxplot with significant groups (as in Longevity)
+Grouplabels = tbl_df(FecundityTukey$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
+Grouplabels$TreatmentName = row.names(FecundityTukey$groups)     # create a column with the TreatmentNames from the row names
+Max = FecundityTukey$means["Max"]                                # extract the maximum value from the tukey test
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
+Grouplabels$aboveMax = Grouplabels$Max + 0.5                               # create a new column for placement above the max value
+Grouplabels
+absMax = max(Grouplabels$Max)
+ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered 
+  geom_boxplot() + 
+  xlab("Treatment") +
+  ylab("Fecundity (eggs/female/day") +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
+    # to put labels all at same height, y = absMax + absMax*0.05
 
 
+# Pre-oviposition Period
 
-# Pre/Oviposition Period
-
-
-#visualization
-#Preoviposition period
+# Preoviposition period
 hist(as.numeric(Complete$PreOvipositionPeriod))
 
-ggplot(Complete, aes(x= as.factor(TreatmentName), y= PreOvipositionPeriod)) + 
+ggplot(Complete, aes(x = as.factor(TreatmentName), y = PreOvipositionPeriod)) + 
   geom_boxplot() +
   xlab("Treatment")
 
-#perform ANOVA and Tukey HSD on Preoviposition Period
-PreoviANOVA=aov(Complete$PreOvipositionPeriod~Complete$TreatmentName)
-PreoviTukeyHSD=HSD.test(PreoviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
-PreoviTukeyHSD
+# perform ANOVA and Tukey HSD on Preoviposition Period
+PreoviANOVA = aov(Complete$PreOvipositionPeriod ~ Complete$TreatmentName)
+PreoviTukey = HSD.test(PreoviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+PreoviTukey
+
+# Boxplot with significant groups (as in Longevity)
+Grouplabels = tbl_df(PreoviTukey$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
+Grouplabels$TreatmentName = row.names(PreoviTukey$groups)     # create a column with the TreatmentNames from the row names
+Max = PreoviTukey$means["Max"]                                # extract the maximum value from the tukey test
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
+Grouplabels$aboveMax = Grouplabels$Max + 3                               # create a new column for placement above the max value
+Grouplabels
+absMax = max(Grouplabels$Max)
+ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered 
+  geom_boxplot() + 
+  xlab("Treatment") +
+  ylab("Pre-oviposition Period (days)") +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
+    # to put labels all at same height, y = absMax + absMax*0.05
 
 
-#Oviposition period
+
+# Oviposition period
 hist(as.numeric(Complete$OvipositionPeriod))
 
-ggplot(Complete, aes(x= as.factor(TreatmentName), y= OvipositionPeriod)) + 
+ggplot(Complete, aes(x = as.factor(TreatmentName), y = OvipositionPeriod)) + 
   geom_boxplot() +
   xlab("Treatment")
 
 #perform ANOVA and Tukey HSD on Oviposition Period
-OviANOVA=aov(Complete$OvipositionPeriod~Complete$TreatmentName)
-OviTukeyHSD=HSD.test(OviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
-OviTukeyHSD
+OviANOVA = aov(Complete$OvipositionPeriod ~ Complete$TreatmentName)
+OviTukey = HSD.test(OviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+OviTukey
 
+# Boxplot with significant groups (as in Longevity)
+Grouplabels = tbl_df(OviTukey$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
+Grouplabels$TreatmentName = row.names(OviTukey$groups)     # create a column with the TreatmentNames from the row names
+Max = OviTukey$means["Max"]                                # extract the maximum value from the tukey test
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
+Grouplabels$aboveMax = Grouplabels$Max + 3                               # create a new column for placement above the max value
+Grouplabels
+absMax = max(Grouplabels$Max)
+ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered 
+  geom_boxplot() + 
+  xlab("Treatment") +
+  ylab("Oviposition Period (days)") +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
+    # to put labels all at same height, y = absMax + absMax*0.05
