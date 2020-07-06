@@ -42,8 +42,15 @@ summary(Tibia)
 # measures of spread
 summary(Rate)
 
-# Histograms
-hist(Rate$Total.Development..days.)
+# Histograms (as in adult Longevity)
+Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
+ggplot(Rate, aes(x = Total.Development..days., color = factor(Block), fill = factor(Block))) +
+  geom_histogram() +
+  xlab("Total Development (days)") +
+  ylab("Frequency") +
+  facet_wrap(~factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+# then for all Nymphal Instars
+  # ? need nymphal instar in long form?
 
 # Summary stats (Mean, SD, SE, n)
 # just Total Development (days)
@@ -52,8 +59,15 @@ Rate %>% summarise(Mean = mean(Total.Development..days.), SD = sd(Total.Developm
 Groupedrate = Rate %>% group_by(Block, Treatment)
 Groupedsummary = Groupedrate %>% summarise(Mean = mean(Total.Development..days.), SD = sd(Total.Development..days.), SE = sd(Total.Development..days.)/sqrt(length(Total.Development..days.)), n = length(Total.Development..days.))
 Groupedsummary
-#then for All Nymphal Instars NOT WORKING (trying from https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645)
-Groupedrate %>% summarise(across(c("N1d":"Total.Development..days.")), .funs = (Mean = mean(), SD = sd(), SE = sd()/sqrt()/length(), n = length()))
+# then for all Nymphal Instars (from https://dplyr.tidyverse.org/articles/colwise.html#multiple-functions-1trying, also https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645 )
+summarystatfunctions = list(
+  Mean = ~ mean(.x), 
+  SD = ~ sd(.x), 
+  SE = ~ sd(.x)/sqrt(length(.x)), 
+  n = ~ length(.x)
+)
+Groupedsummary = Groupedrate %>% summarise(across(.cols = N1d : Total.Development..days., .fns = summarystatfunctions, .names = "{col}.{fn}"))
+Groupedsummary
 
 # Boxplot
 boxplot(Rate$Total.Development..days. ~ Rate$Treatment, xlab = "Treatment", ylab = "Total Development (days)")
@@ -93,17 +107,17 @@ meansplot
 # Yes there is a sig diff, but some Treatments don't having samples in both Blocks (W, LR)
 
 # Boxplot with significant groups (as in Longevity)
-Grouplabels = tbl_df(TotaldevTukeyTreatment$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
-Grouplabels$TreatmentName = row.names(TotaldevTukeyTreatment$groups)     # create a column with the TreatmentNames from the row names
-Max = TotaldevTukeyTreatment$means["Max"]                                # extract the maximum value from the tukey test
-Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
-Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
-Grouplabels$aboveMax = Grouplabels$Max + 1                               # create a new column for placement above the max value
+Grouplabels = tbl_df(TotaldevTukeyTreatment$groups["groups"])
+Grouplabels$TreatmentName = row.names(TotaldevTukeyTreatment$groups)
+Max = TotaldevTukeyTreatment$means["Max"]
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")
+Grouplabels$aboveMax = Grouplabels$Max + 1
 Grouplabels
 absMax = max(Grouplabels$Max)
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
-ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered
-  geom_boxplot(aes(color = factor(Block))) + 
+ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Treatmentlevelsorder))) +
+  geom_boxplot(aes(color = factor(Block))) + # need to use factor() to identify Block as a factor, not something else?
   xlab("Treatment") +
   ylab("Total Development (days)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
