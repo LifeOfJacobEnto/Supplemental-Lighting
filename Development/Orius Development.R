@@ -137,8 +137,9 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
       ggqqplot(Groupedrate$Total.Development..days.)
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-  
-  # 
+      library(car)
+      leveneTest(data = Rate, Total.Development..days. ~ factor(Block) * Treatment)
+
 # Repeat for all Nymphal Instars
 
 # ? Combine into multi-boxplot?
