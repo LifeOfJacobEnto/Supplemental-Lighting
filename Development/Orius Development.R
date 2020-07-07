@@ -18,6 +18,7 @@ getwd()
 
 
 # Get Openrefined Data ----------------------------------------------------
+# OpenRefine Lesson: http://datacarpentry.org/OpenRefine-ecology-lesson/
 
 # Development Rate
 Rate = tbl_df(read.csv("Development Rate Openrefined.csv", header = TRUE))
