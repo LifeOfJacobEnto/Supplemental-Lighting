@@ -87,7 +87,7 @@ summary(TotaldevANOVA)
 TotaldevTukey = HSD.test(TotaldevANOVA, trt = 'Rate$Treatment', group = TRUE)
 TotaldevTukey
 
-# ? is there a difference between Blocks? ie. use 2-way anova with Block and Treatment including interaction effect (from http://www.sthda.com/english/wiki/two-way-anova-test-in-r)
+# is there a difference between Blocks? ie. use 2-way anova with Block and Treatment including interaction effect (from http://www.sthda.com/english/wiki/two-way-anova-test-in-r)
 Totaldev2wayANOVA = aov(Rate$Total.Development..days. ~ Rate$Block + Rate$Treatment + Rate$Block:Rate$Treatment)
 summary(Totaldev2wayANOVA)
 TotaldevTukeyBlock = HSD.test(Totaldev2wayANOVA, trt = 'Rate$Block', group = TRUE)
@@ -123,8 +123,21 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
-# Normality and Assumptions
-
+# Normality and Assumptions for ANOVA
+  # individuals are randomly sampled (randomly selected from the colony)
+  # samples are independently selected ie. not paired across the treatments
+  # subjects were independently selected (not grabbing multiple individuals at once)
+  # Normal distribution of each populaiton (ie under each treatment)
+    # Histograms
+    # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
+      shapiro.test(Groupedrate$Total.Development..days.)
+    # Q-Q Plots
+      library(ggpubr)
+      ggqqplot(Groupedrate$Total.Development..days.)
+  # equal variance across populations "homogeneity of variance" "homoscedasticity" 
+    # Levene's test
+  
+  # 
 # Repeat for all Nymphal Instars
 
 # ? Combine into multi-boxplot?
