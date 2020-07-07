@@ -56,6 +56,7 @@ ggplot(Rate, aes(x = Total.Development..days., color = factor(Block), fill = fac
 # just Total Development (days)
 Rate %>% summarise(Mean = mean(Total.Development..days.), SD = sd(Total.Development..days.), SE = sd(Total.Development..days.)/sqrt(length(Total.Development..days.)), n = length(Total.Development..days.))
 # then grouped by Block and Treatment
+Rate$Block = factor(Rate$Block) # redefine Block as a factor to not confuse certain functions
 Groupedrate = Rate %>% group_by(Block, Treatment)
 Groupedsummary = Groupedrate %>% summarise(Mean = mean(Total.Development..days.), SD = sd(Total.Development..days.), SE = sd(Total.Development..days.)/sqrt(length(Total.Development..days.)), n = length(Total.Development..days.))
 Groupedsummary
@@ -117,7 +118,7 @@ Grouplabels
 absMax = max(Grouplabels$Max)
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
 ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Treatmentlevelsorder))) +
-  geom_boxplot(aes(color = factor(Block))) + # need to use factor() to identify Block as a factor, not something else?
+  geom_boxplot(aes(color = Block)) + 
   xlab("Treatment") +
   ylab("Total Development (days)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
@@ -137,10 +138,12 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
       ggqqplot(Groupedrate$Total.Development..days.)
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      library(car)
-      leveneTest(data = Rate, Total.Development..days. ~ factor(Block) * Treatment)
+      leveneTest(Groupedrate$Total.Development..days. ~ Groupedrate$Treatment * factor(Groupedrate$Block), center = median)
+      levene_test(data = Groupedrate, formula = Groupedrate$Total.Development..days. ~ Groupedrate$Treatment * factor(Groupedrate$Block), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
+
 
 # Repeat for all Nymphal Instars
+  # ? need in Long form?
 
 # ? Combine into multi-boxplot?
 
