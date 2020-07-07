@@ -130,7 +130,8 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
   # Normal distribution of each populaiton (ie under each treatment)
     # Histograms
     # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
-      shapiro.test(Groupedrate$Total.Development..days.)
+      library("rstatix")
+      Groupedrate %>% shapiro_test(Total.Development..days.) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
       library(ggpubr)
       ggqqplot(Groupedrate$Total.Development..days.)
