@@ -205,9 +205,11 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
       library("rstatix")
       GroupedComplete %>% shapiro_test(DaysAlive2020) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
-      library(ggpubr)
-      ggqqplot(GroupedComplete$DaysAlive2020)
-      # ! need to do one for each pop (Treatment x Sex)
+      ggplot(CompleteSexcombined, aes(sample = DaysAlive2020, color = Sex)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html
+        stat_qq() + stat_qq_line() +
+        xlab("Theoretical") +
+        ylab("Sample") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
     # equal variance across populations "homogeneity of variance" "homoscedasticity" 
       # Levene's test
         leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
