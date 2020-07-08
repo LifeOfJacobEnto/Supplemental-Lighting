@@ -205,15 +205,15 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
       library("rstatix")
       GroupedComplete %>% shapiro_test(DaysAlive2020) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
-      ggplot(CompleteSexcombined, aes(sample = DaysAlive2020, color = Sex)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html
+      ggplot(CompleteSexcombined, aes(sample = DaysAlive2020, color = Sex)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
-    # equal variance across populations "homogeneity of variance" "homoscedasticity" 
-      # Levene's test
-        leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
-        CompleteSexcombined %>% levene_test(formula = DaysAlive2020 ~ TreatmentName * Sex, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
+  # equal variance across populations "homogeneity of variance" "homoscedasticity" 
+    # Levene's test
+      leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
+      CompleteSexcombined %>% levene_test(formula = DaysAlive2020 ~ TreatmentName * Sex, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 
 
@@ -221,7 +221,6 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
 
 # visualization
 hist(as.numeric(Complete$TotalEggs))
-
 ggplot(Complete, aes(x = as.factor(TreatmentName), y = TotalEggs)) + 
   geom_boxplot() +
   xlab("Treatment")
@@ -262,6 +261,33 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
+# Assumptions
+  # individuals are randomly sampled (randomly selected from the colony)
+  # samples are independently selected ie. not paired across the treatments
+  # subjects were independently selected (not grabbing multiple individuals at once)
+  # Normal distribution of each populaiton (ie under each treatment)
+    # Histograms
+      ggplot(Complete, aes(x = Eggsperfemaleperday)) + 
+       geom_histogram() +
+        xlab("Fecundity (eggs/female/day)") +
+        ylab("Frequency") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+    # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
+      library("rstatix")
+      Groupedcomplete = Complete %>% group_by(TreatmentName)
+      Groupedcomplete %>% shapiro_test(Eggsperfemaleperday) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
+    # Q-Q Plots
+      ggplot(Complete, aes(sample = Eggsperfemaleperday)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
+        stat_qq() + stat_qq_line() +
+        xlab("Theoretical") +
+        ylab("Sample") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+  # equal variance across populations "homogeneity of variance" "homoscedasticity" 
+    # Levene's test
+      leveneTest(Complete$Eggsperfemaleperday ~ Complete$TreatmentName, center = median)
+      Complete %>% levene_test(formula = Eggsperfemaleperday ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
+
+
 
 # Pre-oviposition Period
 
@@ -291,6 +317,32 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
   ylab("Pre-oviposition Period (days)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+
+# Assumptions
+  # individuals are randomly sampled (randomly selected from the colony)
+  # samples are independently selected ie. not paired across the treatments
+  # subjects were independently selected (not grabbing multiple individuals at once)
+  # Normal distribution of each populaiton (ie under each treatment)
+    # Histograms
+      ggplot(Complete, aes(x = PreOvipositionPeriod)) + 
+        geom_histogram() +
+        xlab("Pre-oviposition Period (days)") +
+        ylab("Frequency") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+    # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
+      library("rstatix")
+      Groupedcomplete = Complete %>% group_by(TreatmentName)
+      Groupedcomplete %>% shapiro_test(PreOvipositionPeriod) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
+    # Q-Q Plots
+      ggplot(Complete, aes(sample = PreOvipositionPeriod)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
+        stat_qq() + stat_qq_line() +
+        xlab("Theoretical") +
+        ylab("Sample") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+  # equal variance across populations "homogeneity of variance" "homoscedasticity" 
+    # Levene's test
+      leveneTest(Complete$PreOvipositionPeriod ~ Complete$TreatmentName, center = median)
+      Complete %>% levene_test(formula = PreOvipositionPeriod ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 
 
@@ -322,3 +374,29 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
   ylab("Oviposition Period (days)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+
+# Assumptions
+  # individuals are randomly sampled (randomly selected from the colony)
+  # samples are independently selected ie. not paired across the treatments
+  # subjects were independently selected (not grabbing multiple individuals at once)
+  # Normal distribution of each populaiton (ie under each treatment)
+    # Histograms
+      ggplot(Complete, aes(x = OvipositionPeriod)) + 
+        geom_histogram() +
+        xlab("Oviposition Period (days)") +
+        ylab("Frequency") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+    # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
+      library("rstatix")
+      Groupedcomplete = Complete %>% group_by(TreatmentName)
+      Groupedcomplete %>% shapiro_test(OvipositionPeriod) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
+    # Q-Q Plots
+      ggplot(Complete, aes(sample = OvipositionPeriod)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
+        stat_qq() + stat_qq_line() +
+        xlab("Theoretical") +
+        ylab("Sample") +
+        facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+  # equal variance across populations "homogeneity of variance" "homoscedasticity" 
+    # Levene's test
+      leveneTest(Complete$OvipositionPeriod ~ Complete$TreatmentName, center = median)
+      Complete %>% levene_test(formula = OvipositionPeriod ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
