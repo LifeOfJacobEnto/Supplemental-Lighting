@@ -136,11 +136,12 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
       Groupedrate %>% shapiro_test(Total.Development..days.) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
       library(ggpubr)
-      ggqqplot(Groupedrate$Total.Development..days.)
+      ggqqplot(Rate$Total.Development..days.)
+      # ! need to do one for each pop (Treatment x Block)
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      leveneTest(Groupedrate$Total.Development..days. ~ Groupedrate$Treatment * factor(Groupedrate$Block), center = median)
-      levene_test(data = Groupedrate, formula = Groupedrate$Total.Development..days. ~ Groupedrate$Treatment * factor(Groupedrate$Block), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
+      leveneTest(Rate$Total.Development..days. ~ Rate$Treatment * factor(Rate$Block), center = median)
+      Rate %>% levene_test(formula = Total.Development..days. ~ Treatment * factor(Block), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 
 # Repeat for all Nymphal Instars

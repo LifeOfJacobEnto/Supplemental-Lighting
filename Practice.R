@@ -107,7 +107,7 @@ hist(as.numeric(Complete$DaysFAlive2020))
 
 #2. using Complete by combining DaysMAlive2020 and DaysFAlive2020 using gather
 dim(Complete)
-CompleteSexcombined=Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
+CompleteSexcombined = Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
 dim(CompleteSexcombined)
 
 # Summary stats for DaysAlive2020 (Mean, SD, SE, n)
@@ -193,6 +193,25 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
   ylab("Longevity (days)") +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+
+# Assumptions
+  # individuals are randomly sampled (randomly selected from the colony)
+  # samples are independently selected ie. not paired across the treatments
+    # ? the data is not paired by Sex because we are comparing the average of all males to all females, not each male-female within a cup (but should we? No, because all the cups are the same?)
+  # subjects were independently selected (not grabbing multiple individuals at once)
+  # Normal distribution of each populaiton (ie under each treatment)
+    # Histograms
+    # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
+      library("rstatix")
+      GroupedComplete %>% shapiro_test(DaysAlive2020) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
+    # Q-Q Plots
+      library(ggpubr)
+      ggqqplot(GroupedComplete$DaysAlive2020)
+      # ! need to do one for each pop (Treatment x Sex)
+    # equal variance across populations "homogeneity of variance" "homoscedasticity" 
+      # Levene's test
+        leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
+        CompleteSexcombined %>% levene_test(formula = DaysAlive2020 ~ TreatmentName * Sex, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 
 
