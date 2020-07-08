@@ -1,3 +1,6 @@
+# Prep --------------------------------------------------------------------
+
+
 rm(list=ls())
 
 # install and load necessary packages install.packages("PackageName")
@@ -28,7 +31,8 @@ Complete=tbl_df(Complete)
 
 
 
-# Data Cleanup
+# Data Cleanup ------------------------------------------------------------
+
 
 # Filter out squished or MIA pairs 
 dim(Complete)
@@ -74,7 +78,8 @@ hist(as.numeric(Complete$PostOvipositionPeriod))
 
 
 
-# Longevity
+# Longevity ---------------------------------------------------------------
+
 
 #visualization
 hist(as.numeric(Complete$DaysMAlive2020))
@@ -217,7 +222,8 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
 
 
 
-# Fecundity
+# Fecundity ---------------------------------------------------------------
+
 
 # visualization
 hist(as.numeric(Complete$TotalEggs))
@@ -289,7 +295,8 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
 
 
 
-# Pre-oviposition Period
+# Pre-oviposition Period --------------------------------------------------
+
 
 hist(as.numeric(Complete$PreOvipositionPeriod))
 
@@ -346,7 +353,8 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
 
 
 
-# Oviposition period
+# Oviposition Period ------------------------------------------------------
+
 
 hist(as.numeric(Complete$OvipositionPeriod))
 
@@ -354,7 +362,7 @@ ggplot(Complete, aes(x = as.factor(TreatmentName), y = OvipositionPeriod)) +
   geom_boxplot() +
   xlab("Treatment")
 
-#perform ANOVA and Tukey HSD on Oviposition Period
+# perform ANOVA and Tukey HSD on Oviposition Period
 OviANOVA = aov(Complete$OvipositionPeriod ~ Complete$TreatmentName)
 OviTukey = HSD.test(OviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
 OviTukey
