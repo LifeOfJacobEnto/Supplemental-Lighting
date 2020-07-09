@@ -115,6 +115,12 @@ dim(Complete)
 CompleteSexcombined = Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
 dim(CompleteSexcombined)
 
+# Transformations
+  # CompleteSexcombined$DaysAlive2020 = sqrt(CompleteSexcombined$DaysAlive2020)
+    # sqrt transformation results in apparently more Normal distributions (histograms), though still many treatments were not considered Normal by the Shapiro-Wilk tests or Q-Q plots, and still unequal variances (p = 5.07e-07), and significant differences between treatments is less pronounced (boxplots)
+  # CompleteSexcombined$DaysAlive2020 = log(CompleteSexcombined$DaysAlive2020)
+    # Log transformation results in all Treatments being skewed to the left (histograms), and no Treatments considered normal from Shapiro-Wilk or Q-Q plots, and unequal variances from Levene's test (p = 2.32e-06), and significant differences between treatments is less pronounced (boxplots)
+
 # Summary stats for DaysAlive2020 (Mean, SD, SE, n)
 Longevitysummary = CompleteSexcombined %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
 GroupedComplete = CompleteSexcombined %>% group_by(TreatmentName, Sex)
@@ -224,7 +230,6 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
 
 # Fecundity ---------------------------------------------------------------
 
-
 # visualization
 hist(as.numeric(Complete$TotalEggs))
 ggplot(Complete, aes(x = as.factor(TreatmentName), y = TotalEggs)) + 
@@ -245,6 +250,12 @@ hist(Complete$Eggsperfemaleperday)
 ggplot(Complete, aes(x = as.factor(TreatmentName), y = Eggsperfemaleperday)) + 
   geom_boxplot() +
   xlab("Treatment")
+
+# Transformations
+  # Complete$Eggsperfemaleperday = sqrt(Complete$Eggsperfemaleperday)
+    # sqrt transformation results in still bimodal distribution (because high proportion of 0 or low number of eggs, histograms), still many treatments not considered Normal by Shapiro-Wilk test or Q-Q plots, and unequal variances from Levene's test (p = 0.0003033)
+  # Complete$Eggsperfemaleperday = log(Complete$Eggsperfemaleperday)
+    # Log transformation results in errors because log(0) is undefined
 
 # perform ANOVA and Tukey HSD on Eggs/Female/Day
 FecundityANOVA = aov(Complete$Eggsperfemaleperday ~ Complete$TreatmentName)
@@ -297,6 +308,12 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
 
 # Pre-oviposition Period --------------------------------------------------
 
+# Transformations
+  # Complete$PreOvipositionPeriod = sqrt(Complete$PreOvipositionPeriod)
+    # sqrt transformation results in less skewed to the right distribution (histograms), still all treatments not considered Normal by Shapiro-Wilk test or Q-Q plots, and unequal variances from Levene's test (p = 0.04656)
+  # Complete$PreOvipositionPeriod = log(Complete$PreOvipositionPeriod)
+    # Log transformation results in errors because log(0) is undefined
+      
 
 hist(as.numeric(Complete$PreOvipositionPeriod))
 
@@ -355,6 +372,11 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
 
 # Oviposition Period ------------------------------------------------------
 
+# Transformations
+  # Complete$OvipositionPeriod = sqrt(Complete$OvipositionPeriod)
+    # sqrt transformation results in similar distributions with high number of 0 or low numbers (histograms), still many treatments not considered Normal by Shapiro-Wilk test or Q-Q plots, and unequal variances from Levene's test (p = 0.01627)
+  # Complete$OvipositionPeriod = log(Complete$OvipositionPeriod)
+    # Log transformation results in errors because log(0) is undefined
 
 hist(as.numeric(Complete$OvipositionPeriod))
 
