@@ -226,8 +226,17 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
       leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
       CompleteSexcombined %>% levene_test(formula = DaysAlive2020 ~ TreatmentName * Sex, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
+# Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+      # Assumptions
+    # data must be independent samples from populations for which the distribution of the variable has the same shape
+    # observations within each sample must be independent, randomly selected subjects in each sample
+  CompleteSexcombined %>% kruskal_test(DaysAlive2020 ~ TreatmentName)
+  CompleteSexcombined %>% kruskal_test(DaysAlive2020 ~ Sex)
+  # Could follow up with Effect Sizes?
+  # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
-
+  
+  
 # Fecundity ---------------------------------------------------------------
 
 # visualization
@@ -304,8 +313,16 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
       leveneTest(Complete$Eggsperfemaleperday ~ Complete$TreatmentName, center = median)
       Complete %>% levene_test(formula = Eggsperfemaleperday ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
+# Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+  # Assumptions
+    # data must be independent samples from populations for which the distribution of the variable has the same shape
+    # observations within each sample must be independent, randomly selected subjects in each sample
+  Complete %>% kruskal_test(Eggsperfemaleperday ~ TreatmentName)
+  # Could follow up with Effect Sizes?
+  # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
-
+  
+  
 # Pre-oviposition Period --------------------------------------------------
 
 # Transformations
@@ -368,7 +385,15 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
       leveneTest(Complete$PreOvipositionPeriod ~ Complete$TreatmentName, center = median)
       Complete %>% levene_test(formula = PreOvipositionPeriod ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
+# Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+  # Assumptions
+    # data must be independent samples from populations for which the distribution of the variable has the same shape
+    # observations within each sample must be independent, randomly selected subjects in each sample
+  Complete %>% kruskal_test(PreOvipositionPeriod ~ TreatmentName)
+  # Could follow up with Effect Sizes?
+  # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
+  
 
 # Oviposition Period ------------------------------------------------------
 
@@ -430,3 +455,11 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
     # Levene's test
       leveneTest(Complete$OvipositionPeriod ~ Complete$TreatmentName, center = median)
       Complete %>% levene_test(formula = OvipositionPeriod ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
+
+# Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+  # Assumptions
+    # data must be independent samples from populations for which the distribution of the variable has the same shape
+    # observations within each sample must be independent, randomly selected subjects in each sample
+  Complete %>% kruskal_test(OvipositionPeriod ~ TreatmentName)
+  # Could follow up with Effect Sizes?
+  # and pairwise-comparisons using Dunn's test or Wilcoxon's test?     
