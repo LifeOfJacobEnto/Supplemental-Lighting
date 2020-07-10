@@ -12,7 +12,7 @@ library("gplots")
 
 
 # Choose the wd
-setwd(choose.dir())
+setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Development/Openrefined data")
 #setwd("./Openrefined data") # "." refers to the file that this script is already in
 getwd()
 
@@ -42,6 +42,14 @@ summary(Tibia)
 
 # measures of spread
 summary(Rate)
+
+# Transformations
+  # Rate$Total.Development..days. = sqrt(Rate$Total.Development..days.)
+    # sqrt transformation results in nearly identical results to untransformed data
+  # Rate$Total.Development..days. = log(Rate$Total.Development..days.)
+    # Log transformation results in nearly identical results to untransformed data
+
+
 
 # Histograms (as in adult Longevity)
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
@@ -125,7 +133,7 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
-# Normality and Assumptions for ANOVA
+# Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
   # samples are independently selected ie. not paired across the treatments
   # subjects were independently selected (not grabbing multiple individuals at once)
@@ -135,19 +143,23 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
       library("rstatix")
       Groupedrate %>% shapiro_test(Total.Development..days.) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
-      library(ggpubr)
-      ggqqplot(Rate$Total.Development..days.)
-      # ! need to do one for each pop (Treatment x Block)
+      ggplot(Rate, aes(sample = Total.Development..days., color = Block)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
+        stat_qq() + stat_qq_line() +
+        xlab("Theoretical") +
+        ylab("Sample") +
+        facet_wrap(~factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
       leveneTest(Rate$Total.Development..days. ~ Rate$Treatment * factor(Rate$Block), center = median)
       Rate %>% levene_test(formula = Total.Development..days. ~ Treatment * factor(Block), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 
+
 # Repeat for all Nymphal Instars
   # ? need in Long form?
 
 # ? Combine into multi-boxplot?
+
 
 
 # Percent Mortality Analysis ----------------------------------------------
