@@ -120,6 +120,8 @@ dim(CompleteSexcombined)
     # sqrt transformation results in apparently more Normal distributions (histograms), though still many treatments were not considered Normal by the Shapiro-Wilk tests or Q-Q plots, and still unequal variances (p = 5.07e-07), and significant differences between treatments is less pronounced (boxplots)
   # CompleteSexcombined$DaysAlive2020 = log(CompleteSexcombined$DaysAlive2020)
     # Log transformation results in all Treatments being skewed to the left (histograms), and no Treatments considered normal from Shapiro-Wilk or Q-Q plots, and unequal variances from Levene's test (p = 2.32e-06), and significant differences between treatments is less pronounced (boxplots)
+  # CompleteSexcombined$DaysAlive2020 = exp(CompleteSexcombined$DaysAlive2020)
+    # outlier values are extremely exaggerated due to exponential transformation, and all treatments test as non-normal by Shapiro-Wilk test, though this does achieve homogeneity of variances (p = 0.524)
 
 # Summary stats for DaysAlive2020 (Mean, SD, SE, n)
 Longevitysummary = CompleteSexcombined %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
