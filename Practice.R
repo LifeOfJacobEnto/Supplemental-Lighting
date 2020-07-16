@@ -61,7 +61,7 @@ hist(as.numeric(Complete$PostOvipositionPeriod))
 Complete$PostOvipositionPeriod[Complete$PostOvipositionPeriod>1000]=0
 dim(Complete)
 hist(as.numeric(Complete$PostOvipositionPeriod))
-#some pairs have eggs found after female died but thats impossible?? it is possible if the egg was laid, the female died and then later the bean was examined and replaced, though some are longer than that layover period
+# ? some pairs have eggs found after female died but thats impossible?? it is possible if the egg was laid, the female died and then later the bean was examined and replaced, though some are longer than that layover period
 
 #change date header to col
       #dates are as a header but should be a data column, so use gather() to make into columns called Date and NumberOfEggs 
