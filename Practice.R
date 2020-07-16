@@ -17,6 +17,7 @@ getwd()
 #get the data
 Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020.csv", header = TRUE, stringsAsFactors=FALSE, fileEncoding="UTF-8-BOM") #added fileEncoding="UTF-8-BOM" to remove "i.." from first column header https://stackoverflow.com/questions/24568056/rs-read-csv-prepending-1st-column-name-with-junk-text/24568505
 head(Complete)
+dim(Complete)
 
 #rename frist column header to TreatmentName using dplyr's rename()
 # Complete %>% rename(TreatmentName = ?..TreatmentName)
@@ -225,7 +226,7 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
+      # leveneTest(CompleteSexcombined$DaysAlive2020 ~ CompleteSexcombined$TreatmentName * CompleteSexcombined$Sex, center = median)
       CompleteSexcombined %>% levene_test(formula = DaysAlive2020 ~ TreatmentName * Sex, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 # Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
@@ -312,7 +313,7 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      leveneTest(Complete$Eggsperfemaleperday ~ Complete$TreatmentName, center = median)
+      # leveneTest(Complete$Eggsperfemaleperday ~ Complete$TreatmentName, center = median)
       Complete %>% levene_test(formula = Eggsperfemaleperday ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 # Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
@@ -384,7 +385,7 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      leveneTest(Complete$PreOvipositionPeriod ~ Complete$TreatmentName, center = median)
+      # leveneTest(Complete$PreOvipositionPeriod ~ Complete$TreatmentName, center = median)
       Complete %>% levene_test(formula = PreOvipositionPeriod ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 # Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
@@ -455,7 +456,7 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      leveneTest(Complete$OvipositionPeriod ~ Complete$TreatmentName, center = median)
+      # leveneTest(Complete$OvipositionPeriod ~ Complete$TreatmentName, center = median)
       Complete %>% levene_test(formula = OvipositionPeriod ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 # Non-parametric Kruskall-Wallis test (from https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
