@@ -1,6 +1,5 @@
 # Prep --------------------------------------------------------------------
 
-
 rm(list=ls())
 
 # install and load necessary packages install.packages("PackageName")
@@ -19,7 +18,7 @@ Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020.csv", heade
 head(Complete)
 dim(Complete)
 
-#rename frist column header to TreatmentName using dplyr's rename()
+#rename first column header to TreatmentName using dplyr's rename()
 # Complete %>% rename(TreatmentName = ?..TreatmentName)
   #using base functions
     #names(Complete)[names(Complete) == "ï..TreatmentName"] = "TreatmentName"
