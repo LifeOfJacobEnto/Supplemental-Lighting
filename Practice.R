@@ -9,16 +9,18 @@ library(tidyverse)
 library(xlsx)
 library(ggplot2)
 
-#choose the wd
+# choose the wd
 setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git")
 getwd()
 
-#get the data
+# get the data
 Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020.csv", header = TRUE, stringsAsFactors=FALSE, fileEncoding="UTF-8-BOM") #added fileEncoding="UTF-8-BOM" to remove "i.." from first column header https://stackoverflow.com/questions/24568056/rs-read-csv-prepending-1st-column-name-with-junk-text/24568505
 head(Complete)
 dim(Complete)
+# or use Openrefined data
+  # Complete=read.csv("Jacob's Orius Data Sheet 25-May-2020 Complete2020 Openrefined.csv", header = TRUE, stringsAsFactors=FALSE, fileEncoding="UTF-8-BOM") #added fileEncoding="UTF-8-BOM" to remove "i.." from first column header https://stackoverflow.com/questions/24568056/rs-read-csv-prepending-1st-column-name-with-junk-text/24568505
 
-#rename first column header to TreatmentName using dplyr's rename()
+# rename first column header to TreatmentName using dplyr's rename()
 # Complete %>% rename(TreatmentName = ?..TreatmentName)
   #using base functions
     #names(Complete)[names(Complete) == "ï..TreatmentName"] = "TreatmentName"
@@ -26,7 +28,7 @@ dim(Complete)
     #names(Complete)[1] = "TreatmentName"
     #colnames(Complete)
 
-#make Complete into a tibble
+# make Complete into a tibble
 Complete=tbl_df(Complete)
 
 
@@ -129,7 +131,7 @@ GroupedComplete = CompleteSexcombined %>% group_by(TreatmentName, Sex)
 GroupedLongevitysummary = GroupedComplete %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
 GroupedLongevitysummary
 
-#visualization of DaysAlive
+# visualization of DaysAlive
 hist(as.numeric(CompleteSexcombined$DaysAlive2020)) # all values in DaysAlive
 ggplot(CompleteSexcombined, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram()
