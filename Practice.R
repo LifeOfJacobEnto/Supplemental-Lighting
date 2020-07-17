@@ -58,12 +58,15 @@ hist(as.numeric(Complete$PreOvipositionPeriod))
 Complete$PreOvipositionPeriod[Complete$PreOvipositionPeriod<1]=0
 dim(Complete)
 hist(as.numeric(Complete$PreOvipositionPeriod))
-#Post-oviposition for same pairs are very large numbers so
+# Post-oviposition for same pairs are very large numbers so
 hist(as.numeric(Complete$PostOvipositionPeriod))
 Complete$PostOvipositionPeriod[Complete$PostOvipositionPeriod>1000]=0
 dim(Complete)
 hist(as.numeric(Complete$PostOvipositionPeriod))
-# ? some pairs have eggs found after female died but thats impossible?? it is possible if the egg was laid, the female died and then later the bean was examined and replaced, though some are longer than that layover period
+# Some pairs have eggs found after female died but that's impossible. It is possible if the egg was laid, the female died and then later the bean was examined and replaced, though some are longer than that layover period
+  # Complete = filter(Complete, 
+  #                   PostOvipositionPeriod > 0
+  # )
 
 #change date header to col
       #dates are as a header but should be a data column, so use gather() to make into columns called Date and NumberOfEggs 
@@ -116,6 +119,9 @@ hist(as.numeric(Complete$DaysFAlive2020))
 dim(Complete)
 CompleteSexcombined = Complete %>% gather(Sex, DaysAlive2020, c(DaysFAlive2020, DaysMAlive2020) )
 dim(CompleteSexcombined)
+CompleteSexcombined$Sex[CompleteSexcombined$Sex == "DaysFAlive2020"] = "Female"
+CompleteSexcombined$Sex[CompleteSexcombined$Sex == "DaysMAlive2020"] = "Male"
+dim(CompleteSexcombined)
 
 # Transformations
   # CompleteSexcombined$DaysAlive2020 = sqrt(CompleteSexcombined$DaysAlive2020)
@@ -127,18 +133,22 @@ dim(CompleteSexcombined)
 
 # Summary stats for DaysAlive2020 (Mean, SD, SE, n)
 Longevitysummary = CompleteSexcombined %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
-GroupedComplete = CompleteSexcombined %>% group_by(TreatmentName, Sex)
-GroupedLongevitysummary = GroupedComplete %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
+GroupedCompleteSexcombined = CompleteSexcombined %>% group_by(TreatmentName, Sex)
+GroupedLongevitysummary = GroupedCompleteSexcombined %>% summarise(Mean = mean(DaysAlive2020), SD = sd(DaysAlive2020), SE = sd(DaysAlive2020)/sqrt(length(DaysAlive2020)), n = length(DaysAlive2020))
 GroupedLongevitysummary
 
 # visualization of DaysAlive
 hist(as.numeric(CompleteSexcombined$DaysAlive2020)) # all values in DaysAlive
 ggplot(CompleteSexcombined, aes(x = DaysAlive2020, fill = Sex)) + # separated by Sex (from https://www.r-graph-gallery.com/histogram_several_group.html)
-  geom_histogram()
+  geom_histogram() +
+  scale_fill_grey
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
 ggplot(CompleteSexcombined, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated by Sex and Treatment (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram() +
-  xlab("Days Alive") +
+  theme_classic() +
+  scale_fill_grey() +
+  scale_color_manual(values=c("#999999","#999999")) +
+  xlab("Longevity (days)") +
   ylab("Frequency") +
   facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed") 
     # I dont know why ~ is important but it is
@@ -179,12 +189,14 @@ LongevityTukeyTreatment
 
 # Means plot to visualize interaction effect
 Longevitymeansplot = 
-  ggplot(data= GroupedLongevitysummary, aes(y = Mean, x = factor(TreatmentName, levels = Treatmentlevelsorder), group = Sex, col = Sex, fill = Sex)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
+  ggplot(data= GroupedLongevitysummary, aes(y = Mean, x = factor(TreatmentName, levels = Treatmentlevelsorder), group = Sex, color = Sex, fill = Sex)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
   geom_line() + # to colour code by Sex, could add color = GroupedLongevitysummary$Sex within geom_line() 
   geom_point() +
+  theme_classic() +
+  scale_color_grey() +
   xlab("Treatment") +
   ylab("Mean Longevity (days)")
-# geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
+  # geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
 Longevitymeansplot
 # Thus, there is an interaction effect in the Low intensity Treatments, where males live unusually longer than females
 
@@ -206,6 +218,9 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
   geom_boxplot(aes(color = Sex, fill = Sex)) +                            # need to put Sex aes in the boxplot() so that the geom_text() is the same dimensions as the ggplot(aes()))??
   xlab("Treatment") +
   ylab("Longevity (days)") +
+  theme_classic() +
+  scale_fill_grey() +
+  scale_color_manual(values=c("#999999","#999999")) +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
@@ -218,12 +233,14 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
     # Histograms
     # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
       library("rstatix")
-      GroupedComplete %>% shapiro_test(DaysAlive2020) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
+      CompleteSexcombined %>% group_by(TreatmentName, Sex) %>% shapiro_test(DaysAlive2020) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
       ggplot(CompleteSexcombined, aes(sample = DaysAlive2020, color = Sex)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
+        theme_classic() +
+        scale_color_grey() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
@@ -234,8 +251,9 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
       # Assumptions
     # data must be independent samples from populations for which the distribution of the variable has the same shape
     # observations within each sample must be independent, randomly selected subjects in each sample
-  CompleteSexcombined %>% kruskal_test(DaysAlive2020 ~ TreatmentName)
-  CompleteSexcombined %>% kruskal_test(DaysAlive2020 ~ Sex)
+  CompleteSexcombined %>% group_by(Sex) %>% kruskal_test(DaysAlive2020 ~ TreatmentName)
+  CompleteSexcombined %>% group_by(TreatmentName) %>% kruskal_test(DaysAlive2020 ~ Sex)
+  # ? is it appropriate to group_by ?
   # Could follow up with Effect Sizes?
   # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
@@ -253,12 +271,13 @@ regressioneggsdays=lm(Complete$TotalEggs~Complete$DaysFAlive2020)
 summary(regressioneggsdays)
 ggplot(Complete, aes(x = DaysFAlive2020, y = TotalEggs)) + 
   geom_point() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm) +
+  theme_classic() 
 # There is a correlation between TotalEggs and DaysFAlive2020, so control for days alive by expressing fecundity as a rate?
   # Problem: there are some pairs which lived a long time, but produced very few eggs, possibly because the male died early, or more likely because the beans were reused when there were no eggs found but if an egg was missed and then found later it could result in this error
 
 # Fecundity as rate 
-Complete$Eggsperfemaleperday = Complete$TotalEggs/Complete$DaysFAlive2020
+Complete$Eggsperfemaleperday = Complete$TotalEggs / Complete$DaysFAlive2020
 hist(Complete$Eggsperfemaleperday)
 ggplot(Complete, aes(x = as.factor(TreatmentName), y = Eggsperfemaleperday)) + 
   geom_boxplot() +
@@ -269,6 +288,10 @@ ggplot(Complete, aes(x = as.factor(TreatmentName), y = Eggsperfemaleperday)) +
     # sqrt transformation results in still bimodal distribution (because high proportion of 0 or low number of eggs, histograms), still many treatments not considered Normal by Shapiro-Wilk test or Q-Q plots, and unequal variances from Levene's test (p = 0.0003033)
   # Complete$Eggsperfemaleperday = log(Complete$Eggsperfemaleperday)
     # Log transformation results in errors because log(0) is undefined
+
+# Summary stats for Fecundity (Mean, SD, SE, n)
+GroupedFecunditysummary = Complete %>% group_by(TreatmentName) %>% summarise(Mean = mean(Eggsperfemaleperday), SD = sd(Eggsperfemaleperday), SE = sd(Eggsperfemaleperday)/sqrt(length(Eggsperfemaleperday)), n = length(Eggsperfemaleperday))
+GroupedFecunditysummary
 
 # perform ANOVA and Tukey HSD on Eggs/Female/Day
 FecundityANOVA = aov(Complete$Eggsperfemaleperday ~ Complete$TreatmentName)
@@ -288,6 +311,7 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
   geom_boxplot() + 
   xlab("Treatment") +
   ylab("Fecundity (eggs/female/day)") +
+  theme_classic() +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
@@ -301,6 +325,7 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
        geom_histogram() +
         xlab("Fecundity (eggs/female/day)") +
         ylab("Frequency") +
+        theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
     # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
       library("rstatix")
@@ -311,6 +336,7 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
+        theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
@@ -334,7 +360,10 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
     # sqrt transformation results in less skewed to the right distribution (histograms), still all treatments not considered Normal by Shapiro-Wilk test or Q-Q plots, and unequal variances from Levene's test (p = 0.04656)
   # Complete$PreOvipositionPeriod = log(Complete$PreOvipositionPeriod)
     # Log transformation results in errors because log(0) is undefined
-      
+
+# Summary stats for Pre-oviposition Period (Mean, SD, SE, n)
+GroupedPreovipositionsummary = Complete %>% group_by(TreatmentName) %>% summarise(Mean = mean(PreOvipositionPeriod), SD = sd(PreOvipositionPeriod), SE = sd(PreOvipositionPeriod)/sqrt(length(PreOvipositionPeriod)), n = length(PreOvipositionPeriod))
+GroupedPreovipositionsummary
 
 hist(as.numeric(Complete$PreOvipositionPeriod))
 
@@ -360,6 +389,7 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
   geom_boxplot() + 
   xlab("Treatment") +
   ylab("Pre-oviposition Period (days)") +
+  theme_classic() +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
@@ -373,6 +403,7 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
         geom_histogram() +
         xlab("Pre-oviposition Period (days)") +
         ylab("Frequency") +
+        theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
     # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
       library("rstatix")
@@ -383,6 +414,7 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
+        theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
