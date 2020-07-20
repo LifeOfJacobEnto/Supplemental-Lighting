@@ -145,7 +145,7 @@ ggplot(CompleteSexcombined, aes(x = DaysAlive2020, fill = Sex)) + # separated by
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
 ggplot(CompleteSexcombined, aes(x = DaysAlive2020, color = Sex, fill = Sex)) + # separated by Sex and Treatment (from https://www.r-graph-gallery.com/histogram_several_group.html)
   geom_histogram() +
-  theme_classic() +
+  theme_classic() + # see http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization and http://www.sthda.com/english/wiki/ggplot2-box-plot-quick-start-guide-r-software-and-data-visualization
   scale_fill_grey() +
   scale_color_manual(values=c("#999999","#999999")) +
   xlab("Longevity (days)") +
