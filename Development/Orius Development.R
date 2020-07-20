@@ -167,7 +167,7 @@ ggplot(Rate, aes(y = Total.Development..days., x = factor(Treatment, levels = Tr
 Groupedmort = Mort %>% group_by(Trt)
 Mortblockcombined = Groupedmort %>% summarise(TotNo = sum(TotNo), NoD = sum(NoD))
 Mortblockcombined
-Percentmortcombined = Mortblockcombined %>% mutate(NoA = TotNo-NoD, PercentJuvenileMortality = (NoD/TotNo)*100)
+Percentmortcombined = Mortblockcombined %>% mutate(NoA = TotNo-NoD, PercentJuvenileMortality = (NoD/TotNo)*100, PercentSurvival = (NoA/TotNo)*100)
 Percentmortcombined
 
 ggplot(Percentmortcombined, aes(y = PercentJuvenileMortality, x = Trt)) +
@@ -175,7 +175,17 @@ ggplot(Percentmortcombined, aes(y = PercentJuvenileMortality, x = Trt)) +
   xlab("Treatment") +
   ylab("Percent Mortality")
 
-# ? what stat test, chi squared??
+# Chi-squared Test of Independence ie. is the number of Dead individuals in/dependent on Treatment? from https://www.r-bloggers.com/chi-squared-test/
+
+# need to make a contingency table of Treamtent as rows, and Alive vs. Dead as columns
+  # first remove the escaped and unknown individuals  
+    Mortalityminusescaped = filter()
+
+  # then use table() function to make a contingency table from categorical data
+    Mortalitycontingency = Percentmortcombined %>% select(Trt, NoA, NoD)
+
+# Chi-squared Test
+chisq.test(Mortalitycontingency, correct = FALSE) # correct = FALSE so Yates continuity correction is NOT applied, as per Lecture 16 of Biostats
 
 
 # Tibial Lengths Analysis -------------------------------------------------
