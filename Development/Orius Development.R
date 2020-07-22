@@ -12,7 +12,7 @@ library("gplots")
 
 
 # Choose the wd
-setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Development/Openrefined data")
+setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Development/Openrefined data/From Kaye")
 #setwd("./Openrefined data") # "." refers to the file that this script is already in
 getwd()
 

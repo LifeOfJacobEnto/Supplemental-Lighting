@@ -1,0 +1,338 @@
+"Block (1 = from Orius Development JB2020.xlsx, 2 = from Orius Development 2 JB2020.xlsx)",Treatment,Cell/Plate #,N1,N2,N3,N4,N5,Adult,Sex,Notes,JB2020 Notes,N1 (days),N2 (days),N3 (days),N4 (days),N5 (days),"Total Development (days) (individuals where an instar was not recorded, ie. missed, are assumed to have taken the difference equally to complete, eg. N1 recorded on the 5th and N3 recorded on the 6th -> N1 and N2 durations  = 1day/2instars = 0.5days/instar)",Sex,Notes,JB2020 Notes,"Fate (A = adult, D = dead, E = escaped, U = unknown not included)"
+1,HB,A1,9,10,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,HB,A2,9,,,,,,,Dead Feb 15,,,,,,,0,0,Dead Feb 15,0,D
+1,HB,A3,9,,,,,,,Dead Feb 10- Ephestia,,,,,,,0,0,Dead Feb 10- Ephestia,0,D
+1,HB,A4,9,,,,,,,Escaped Feb 11,,,,,,,0,0,Escaped Feb 11,0,E
+1,HB,A5,9,10,,15,19,,,dead feb 22 - agar,,1,2.5,2.5,4,,10,0,dead feb 22 - agar,0,D
+1,HB,A6,10,11,15,16,,,,dead feb 22,,1,4,1,,,6,0,dead feb 22,0,D
+1,HB,B1,11,,15,,,,,Escaped Feb 17,,2,2,,,,4,0,Escaped Feb 17,0,E
+1,HB,B2,11,,,,,,,Escaped Feb 11,,,,,,,0,0,Escaped Feb 11,0,E
+1,HB,B3,11,11,,15,18,26,M,,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",0.5,2,2,3,8,15.5,M,0,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",A
+1,HB,B4,10,11,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,HB,B5,10,,15,16,19,27,F,Escape Feb 17,"notes said ""Escaped Feb 17"" on paper and excel, but also says adult emerged on 22 and F and has tibia length so included",2.5,2.5,1,3,8,17,F,Escape Feb 17,"notes said ""Escaped Feb 17"" on paper and excel, but also says adult emerged on 22 and F and has tibia length so included",A
+1,HB,B6,10,,15,16,22,28,M,,,2.5,2.5,1,6,6,18,M,0,0,A
+1,HB,C1,11,11,,,,,,Escaped Feb 15,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",0.5,,,,,0.5,0,Escaped Feb 15,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",E
+1,HB,C2,11,11,15,16,18,,,dead feb 25,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",0.5,4,1,2,,7.5,0,dead feb 25,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",D
+1,HB,C3,11,11,,,,,,Escaped Feb 15,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",0.5,,,,,0.5,0,Escaped Feb 15,"if this individual molted from N1 to N2 on the same day, then the N1 must have lasted less than 1 but more than 0 days, so 0.5 days is assumed",E
+1,HB,C4,10,,,,,,,Dead Feb 15,,,,,,,0,0,Dead Feb 15,0,D
+1,HB,C5,10,,,15,,,,Escaped Feb 18,,1.666666667,1.666666667,1.666666667,,,5,0,Escaped Feb 18,0,E
+1,HB,C6,10,,11,16,19,27,F,,,0.5,0.5,5,3,8,17,F,0,0,A
+1,HB,D1,11,,,,,,,Escaped Feb 11,,,,,,,0,0,Escaped Feb 11,0,E
+1,HB,D2,11,,15,17,20,4,M,,,2,2,2,3,13,22,M,0,0,A
+1,HB,D3,10,11,,,,,,Escape Feb 15,,1,,,,,1,0,Escape Feb 15,0,E
+1,HB,D4,10,11,,,,,,Escape Feb 15,,1,,,,,1,0,Escape Feb 15,0,E
+1,HB,D5,10,11,,15,,,,Escape Feb 16,,1,2,2,,,5,0,Escape Feb 16,0,E
+1,HB,D6,10,,,,,,,Escape Feb 15,,,,,,,0,0,Escape Feb 15,0,E
+1,HPS,A1,9,12,,,,,,Dead Feb 18,,3,,,,,3,0,Dead Feb 18,0,D
+1,HPS,A2,10,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,HPS,A3,10,,,,,,,Dead Feb 12,,,,,,,0,0,Dead Feb 12,0,D
+1,HPS,A4,10,,,,,,,Dead Feb 12,,,,,,,0,0,Dead Feb 12,0,D
+1,HPS,A5,10,,12,15,19,1,F,,,1,1,3,4,11,20,F,0,0,A
+1,HPS,A6,10,,12,,,,,Dead Feb 15,,1,1,,,,2,0,Dead Feb 15,0,D
+1,HPS,B1,10,12,,16,,,,Dead Feb 19,,2,2,2,,,6,0,Dead Feb 19,0,D
+1,HPS,B2,10,,12,19,21,2,M,,"notes said ""Escaped Feb 17"" but not on paper datasheet, possibly was entered in wrong space in excel",1,1,7,2,10,21,M,0,"notes said ""Escaped Feb 17"" but not on paper datasheet, possibly was entered in wrong space in excel",A
+1,HPS,B3,10,,12,15,18,27,F,,,1,1,3,3,9,17,F,0,0,A
+1,HPS,B4,10,,12,,,,,Dead Feb 15,,1,1,,,,2,0,Dead Feb 15,0,D
+1,HPS,B5,10,12,15,18,21,29,M,,,2,3,3,3,8,19,M,0,0,A
+1,HPS,B6,10,,12,15,23,1,M,,"notes said ""Escaped Feb 17"" but not on paper datasheet, possibly was entered in wrong space in excel",1,1,3,8,7,20,M,0,"notes said ""Escaped Feb 17"" but not on paper datasheet, possibly was entered in wrong space in excel",A
+1,HPS,C1,11,,12,16,,,,Escape Feb 18,,0.5,0.5,4,,,5,0,Escape Feb 18,0,E
+1,HPS,C2,11,,12,,,,,Dead Feb 15,,0.5,0.5,,,,1,0,Dead Feb 15,0,D
+1,HPS,C3,10,12,,15,18,27,M,,"said Adult emerged on 20, but paper says 27 and M",2,1.5,1.5,3,9,17,M,0,"said Adult emerged on 20, but paper says 27 and M",A
+1,HPS,C4,11,12,15,16,19,27,F,,,1,3,1,3,8,16,F,0,0,A
+1,HPS,C5,11,,12,17,21,1,F,,,0.5,0.5,5,4,9,19,F,0,0,A
+1,HPS,C6,11,,12,,,,,Escape Feb 16,,0.5,0.5,,,,1,0,Escape Feb 16,0,E
+1,HPS,D1,11,,,,,,,Escape Feb 12,,,,,,,0,0,Escape Feb 12,0,E
+1,HPS,D2,11,12,,,,,,Escape Feb 15,,1,,,,,1,0,Escape Feb 15,0,E
+1,HPS,D3,11,12,15,19,21,28,M,,,1,3,4,2,7,17,M,0,0,A
+1,HPS,D4,11,,12,16,19,,,Dead Feb 21,,0.5,0.5,4,3,,8,0,Dead Feb 21,0,D
+1,HPS,D5,11,12,15,16,22,1,F,,,1,3,1,6,8,19,F,0,0,A
+1,HPS,D6,11,12,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,HR,A1,9,10,12,,15,,,Dead Feb 19,,1,2,1.5,1.5,,6,0,Dead Feb 19,0,D
+1,HR,A2,10,,12,15,17,26,M,,,1,1,3,2,9,16,M,0,0,A
+1,HR,A3,10,,12,,,,,Dead Feb 16 - Agar,,1,1,,,,2,0,Dead Feb 16 - Agar,0,D
+1,HR,A4,10,,12,15,,,,Dead Feb 16 - Tape,,1,1,3,,,5,0,Dead Feb 16 - Tape,0,D
+1,HR,A5,11,,12,16,18,27,F,,,0.5,0.5,4,2,9,16,F,0,0,A
+1,HR,A6,11,,12,17,20,,,,?,0.5,0.5,5,3,,9,0,0,?,U
+1,HR,B1,10,12,,15,17,,,D march 1,,2,1.5,1.5,2,,7,0,D march 1,0,D
+1,HR,B2,10,,,,,,,Dead Feb 12- Tape,,,,,,,0,0,Dead Feb 12- Tape,0,D
+1,HR,B3,10,12,,,,,,Dead Feb 15,,2,,,,,2,0,Dead Feb 15,0,D
+1,HR,B4,10,,12,16,,,,Escape February 17,,1,1,4,,,6,0,Escape February 17,0,E
+1,HR,B5,11,12,,,,,,Escape February 16,,1,,,,,1,0,Escape February 16,0,E
+1,HR,B6,11,,,,,,,Escape Feb 12,,,,,,,0,0,Escape Feb 12,0,E
+1,HR,C1,10,,,,,,,Escape Feb 12,,,,,,,0,0,Escape Feb 12,0,E
+1,HR,C2,10,,12,16,18,1,F,,,1,1,4,2,12,20,F,0,0,A
+1,HR,C3,10,,,,,,,Escape Feb 12,,,,,,,0,0,Escape Feb 12,0,E
+1,HR,C4,10,,,,,,,Escape Feb 12,,,,,,,0,0,Escape Feb 12,0,E
+1,HR,C5,11,,,,,,,Dead Feb 12 - Sticky,,,,,,,0,0,Dead Feb 12 - Sticky,0,D
+1,HR,C6,11,12,15,17,26,2,F,,,1,3,2,9,5,20,F,0,0,A
+1,HR,D1,10,,12,16,20,28,F,,,1,1,4,4,8,18,F,0,0,A
+1,HR,D2,10,12,,16,,,,Dead Feb 21,,2,2,2,,,6,0,Dead Feb 21,0,D
+1,HR,D3,10,12,,,,,,Dead February 15,,2,,,,,2,0,Dead February 15,0,D
+1,HR,D4,10,12,16,17,22,28,M,,,2,4,1,5,6,18,M,0,0,A
+1,HR,D5,11,12,15,17,18,26,F,,,1,3,2,1,8,15,F,0,0,A
+1,HR,D6,11,,12,17,,,,Dead Feb 19 - Molting,,0.5,0.5,5,,,6,0,Dead Feb 19 - Molting,0,D
+1,LB,A1,9,,,,,,,Escaped February 12,,,,,,,0,0,Escaped February 12,0,E
+1,LB,A2,9,11,12,,15,,,Dead February 16,,2,1,1.5,1.5,,6,0,Dead February 16,0,D
+1,LB,A3,9,,,,,,,Escaped February 12,,,,,,,0,0,Escaped February 12,0,E
+1,LB,A4,11,,,,,,,Escaped February 12,,,,,,,0,0,Escaped February 12,0,E
+1,LB,A5,11,,12,17,19,25,M,,,0.5,0.5,5,2,6,14,M,0,0,A
+1,LB,A6,11,,,,,,,Escaped February 12,,,,,,,0,0,Escaped February 12,0,E
+1,LB,B1,11,12,,15,,,,Dead February 15,,1,1.5,1.5,,,4,0,Dead February 15,0,D
+1,LB,B2,11,12,,15,,,,,?,1,1.5,1.5,,,4,0,0,?,U
+1,LB,B3,11,12,16,19,21,1,F,,,1,4,3,2,9,19,F,0,0,A
+1,LB,B4,11,,12,12,,,,,?,0.5,0.5,,,,1,0,0,?,U
+1,LB,B5,11,,12,,,,,Dead Feb 16,,0.5,0.5,,,,1,0,Dead Feb 16,0,D
+1,LB,B6,11,12,,15,18,26,F,,,1,1.5,1.5,3,8,15,F,0,0,A
+1,LB,C1,11,12,15,17,,,,Escaped Feb 18,,1,3,2,,,6,0,Escaped Feb 18,0,E
+1,LB,C2,11,,12,17,21,,,Escaped Feb 18,,0.5,0.5,5,4,,10,0,Escaped Feb 18,0,E
+1,LB,C3,11,,15,17,19,,,dead feb 29,,2,2,2,2,,8,0,dead feb 29,0,D
+1,LB,C4,11,,15,,,,,,?,2,2,,,,4,0,0,?,U
+1,LB,C5,11,12,15,,,,,Escaped February 15,,1,3,,,,4,0,Escaped February 15,0,E
+1,LB,C6,11,,,,,,,Dead February 15,,,,,,,0,0,Dead February 15,0,D
+1,LB,D1,11,12,15,16,18,26,M,,,1,3,1,2,8,15,M,0,0,A
+1,LB,D2,11,12,15,17,20,27,M,,,1,3,2,3,7,16,M,0,0,A
+1,LB,D3,11,12,15,17,20,1,F,,,1,3,2,3,10,19,F,0,0,A
+1,LB,D4,11,12,15,19,22,,,,?,1,3,4,3,,11,0,0,?,U
+1,LB,D5,11,12,15,18,21,2,M,,,1,3,3,3,10,20,M,0,0,A
+1,LB,D6,11,12,15,,,,,Escaped February 17,,1,3,,,,4,0,Escaped February 17,0,E
+1,LR,A1,9,,,,,,,Dead Feb 10 - On Tape,,,,,,,0,0,Dead Feb 10 - On Tape,0,D
+1,LR,A2,9,,,,,,,Escaped Feb 11,,,,,,,0,0,Escaped Feb 11,0,E
+1,LR,A3,10,11,,15,,,,Escaped February 17,,1,2,2,,,5,0,Escaped February 17,0,E
+1,LR,A4,10,11,,,15,,,Escaped February 17,,1,1.333333333,1.333333333,1.333333333,,5,0,Escaped February 17,0,E
+1,LR,B1,10,11,15,17,18,,,dead feb 25,,1,4,2,1,,8,0,dead feb 25,0,D
+1,LR,B2,10,11,15,16,,,,,?,1,4,1,,,6,0,0,?,U
+1,LR,B3,10,11,15,16,,,,Escaped Feb 18,,1,4,1,,,6,0,Escaped Feb 18,0,E
+1,LR,B4,10,,,,,,,Escaped February 11,,,,,,,0,0,Escaped February 11,0,E
+1,LR,C1,10,,,,,,,Escaped February 11,,,,,,,0,0,Escaped February 11,0,E
+1,LR,C2,10,11,,15,25,,,dead march 4,,1,2,2,10,,15,0,dead march 4,0,D
+1,LR,C4,,,,,,,,Escaped February 11,,,,,,,0,0,Escaped February 11,0,E
+1,LR,C6,10,,,,,,,,?,,,,,,0,0,0,?,U
+1,LR,D1,10,11,15,17,,,,dead feb 21 - mold,,1,4,2,,,7,0,dead feb 21 - mold,0,D
+1,LR,D2,10,,,,,,,Dead Feb 11- On ephestia strip,,,,,,,0,0,Dead Feb 11- On ephestia strip,0,D
+1,S,A1,9,,,,,,,Escaped Feb 12,"""Switched covers of multi-well from micro-perf to screening on Feb 12"" above this section",,,,,,0,0,Escaped Feb 12,"""Switched covers of multi-well from micro-perf to screening on Feb 12"" above this section",E
+1,S,A2,9,10,12,15,17,19,F,,,1,2,3,2,2,10,F,0,0,A
+1,S,A3,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,A4,9,,12,,,,,Dead Feb 15,,1.5,1.5,,,,3,0,Dead Feb 15,0,D
+1,S,A5,9,,12,,,,,Escape Feb 15,,1.5,1.5,,,,3,0,Escape Feb 15,0,E
+1,S,A6,9,,12,,,,,Dead Feb 15,,1.5,1.5,,,,3,0,Dead Feb 15,0,D
+1,S,B1,9,,12,,,,,Dead Feb 15,,1.5,1.5,,,,3,0,Dead Feb 15,0,D
+1,S,B2,9,,,,,,,Dead Feb 10,,,,,,,0,0,Dead Feb 10,0,D
+1,S,B3,9,,10,,,,,Escaped Feb 12,,0.5,0.5,,,,1,0,Escaped Feb 12,0,E
+1,S,B4,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,B5,9,10,12,,,,,Dead Feb 15,,1,2,,,,3,0,Dead Feb 15,0,D
+1,S,B6,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,C1,9,,12,,,,,Dead Feb 16,,1.5,1.5,,,,3,0,Dead Feb 16,0,D
+1,S,C2,9,10,12,15,17,19,M,,,1,2,3,2,2,10,M,0,0,A
+1,S,C3,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,C4,9,10,12,,15,18,F,,,1,2,1.5,1.5,3,9,F,0,0,A
+1,S,C5,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,C6,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,D1,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,S,D2,9,,,,,,,Dead Feb 12,,,,,,,0,0,Dead Feb 12,0,D
+1,S,D3,9,,12,15,,19,M,,,1.5,1.5,3,2,2,10,M,0,0,A
+1,S,D4,9,,,,,,,Dead Feb 17,,,,,,,0,0,Dead Feb 17,0,D
+1,S,D5,9,10,12,,,,,Dead Feb 15 - Ephestia contains feeder mites,,1,2,,,,3,0,Dead Feb 15 - Ephestia contains feeder mites,0,D
+1,S,D6,9,,,,,,,Dead Feb 10,,,,,,,0,0,Dead Feb 10,0,D
+1,W,A1,9,,12,,,,,Escaped Feb 15,"on paper has ""?"" in N2",1.5,1.5,,,,3,0,Escaped Feb 15,"on paper has ""?"" in N2",E
+1,W,A2,9,,12,16,19,,,dead feb 26,"on paper has ""?"" in N2",1.5,1.5,4,3,,10,0,dead feb 26,"on paper has ""?"" in N2",D
+1,W,A3,9,,12,,15,,,Dead Feb 15,had 10 in N2 but not on paper,1.5,1.5,1.5,1.5,,6,0,Dead Feb 15,had 10 in N2 but not on paper,D
+1,W,A4,9,10,15,,,,,Dead Feb 16,,1,5,,,,6,0,Dead Feb 16,0,D
+1,W,A5,9,,12,16,,,,Dead Feb 16,had 10 in N2 but not on paper,1.5,1.5,4,,,7,0,Dead Feb 16,had 10 in N2 but not on paper,D
+1,W,A6,9,,12,,,,,Dead Feb 15,had 10 in N2 but not on paper,1.5,1.5,,,,3,0,Dead Feb 15,had 10 in N2 but not on paper,D
+1,W,B1,9,,,,,,,Escape Feb 12,,,,,,,0,0,Escape Feb 12,0,E
+1,W,B2,9,,12,16,,,,Dead Feb 19,,1.5,1.5,4,,,7,0,Dead Feb 19,0,D
+1,W,B3,9,10,12,,,,,Dead Feb 15,,1,2,,,,3,0,Dead Feb 15,0,D
+1,W,B4,9,10,12,,,,,Dead Feb 15,,1,2,,,,3,0,Dead Feb 15,0,D
+1,W,B5,9,10,12,,,,,Dead Feb 16,,1,2,,,,3,0,Dead Feb 16,0,D
+1,W,B6,9,10,12,,,,,Dead Feb 16,,1,2,,,,3,0,Dead Feb 16,0,D
+1,W,C1,9,,12,,,,,Dead Feb 15,had 10 in N2 but not on paper,1.5,1.5,,,,3,0,Dead Feb 15,had 10 in N2 but not on paper,D
+1,W,C2,9,,12,,,,,Dead Feb 15,had 10 in N2 but not on paper,1.5,1.5,,,,3,0,Dead Feb 15,had 10 in N2 but not on paper,D
+1,W,C3,9,,12,,,,,Dead Feb 15,had 10 in N2 but not on paper,1.5,1.5,,,,3,0,Dead Feb 15,had 10 in N2 but not on paper,D
+1,W,C4,9,,12,,,,,Dead Feb 15,had 10 in N2 but not on paper,1.5,1.5,,,,3,0,Dead Feb 15,had 10 in N2 but not on paper,D
+1,W,C5,9,,,,,,,Escaped Feb 10,,,,,,,0,0,Escaped Feb 10,0,E
+1,W,C6,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,W,D1,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,W,D2,9,,,,,,,Dead Feb 12 - On Sticky,,,,,,,0,0,Dead Feb 12 - On Sticky,0,D
+1,W,D3,9,10,12,,,,,Dead Feb 15,,1,2,,,,3,0,Dead Feb 15,0,D
+1,W,D4,9,,,,,,,Dead Feb 12,,,,,,,0,0,Dead Feb 12,0,D
+1,W,D5,9,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,W,D6,9,10,12,,,,,Dead Feb 15,,1,2,,,,3,0,Dead Feb 15,0,D
+1,W2,A1,11,12,,,,,,Dead Feb 15,"""light changed feb 18"" above this section on paper, and ""condensation blocks air holes"" below this section",1,,,,,1,0,Dead Feb 15,"""light changed feb 18"" above this section on paper, and ""condensation blocks air holes"" below this section",D
+1,W2,A2,11,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,W2,A3,11,,12,,,,,Dead Feb 16,,0.5,0.5,,,,1,0,Dead Feb 16,0,D
+1,W2,A4,11,,12,,,,,Dead Feb 15,,0.5,0.5,,,,1,0,Dead Feb 15,0,D
+1,W2,A5,11,12,,15,,,,Dead Feb 16,,1,1.5,1.5,,,4,0,Dead Feb 16,0,D
+1,W2,A6,11,12,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,W2,B1,11,12,16,18,20,,,dead feb 29,,1,4,2,2,,9,0,dead feb 29,0,D
+1,W2,B2,11,12,15,,,,,Dead Feb 15,,1,3,,,,4,0,Dead Feb 15,0,D
+1,W2,B3,11,12,15,,,,,Dead Feb 16,,1,3,,,,4,0,Dead Feb 16,0,D
+1,W2,B4,11,12,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,W2,B5,11,,,,,,,Dead Feb 15,,,,,,,0,0,Dead Feb 15,0,D
+1,W2,B6,11,,12,,,,,Dead Feb 15,,0.5,0.5,,,,1,0,Dead Feb 15,0,D
+1,W2,C1,11,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,W2,C2,11,,12,17,20,,,escaped march 1,,0.5,0.5,5,3,,9,0,escaped march 1,0,E
+1,W2,C3,11,,,,,,,Escaped Feb 12,,,,,,,0,0,Escaped Feb 12,0,E
+1,W2,C4,11,12,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,W2,C5,11,12,15,,,,,Dead Feb 15,,1,3,,,,4,0,Dead Feb 15,0,D
+1,W2,C6,11,12,,,,,,Dead Feb 16,,1,,,,,1,0,Dead Feb 16,0,D
+1,W2,D1,11,,12,,,,,Dead Feb 15,,0.5,0.5,,,,1,0,Dead Feb 15,0,D
+1,W2,D2,11,12,16,,15,,,Dead Feb 17,Impossible arrangement of dates,1,4,,0,,5,0,Dead Feb 17,Impossible arrangement of dates,D
+1,W2,D3,11,,12,,,,,Dead Feb 16,,0.5,0.5,,,,1,0,Dead Feb 16,0,D
+1,W2,D4,11,12,,,,,,Dead Feb 15,,1,,,,,1,0,Dead Feb 15,0,D
+1,W2,D5,11,,12,16,15,,,Dead Feb 18,Impossible arrangement of dates,0.5,0.5,4,0,,5,0,Dead Feb 18,Impossible arrangement of dates,D
+1,W2,D6,11,12,,15,,,,Dead Feb 16,,1,1.5,1.5,,,4,0,Dead Feb 16,0,D
+2,HB,1,28,29,,,,,,Escaped March 10,,1,,,,,1,0,Escaped March 10,0,E
+2,HB,2,28,1,2,4,7,15,F,,,2,1,2,3,8,16,F,0,0,A
+2,HB,3,29,1,3,7,9,,,D M 18,,1,2,4,2,,9,0,D M 18,0,D
+2,HB,4,29,1,,,,,,Escaped March 2,,1,,,,,1,0,Escaped March 2,0,E
+2,HB,5,29,1,3,7,8,,,,?,1,2,4,1,,8,0,0,?,U
+2,HB,6,7,,,,,,,Dead March 8,,,,,,,0,0,Dead March 8,0,D
+2,HB,7,7,,,,,,,Escaped March8,,,,,,,0,0,Escaped March8,0,E
+2,HB,8,7,,,,,,,Escaped March 9,,,,,,,0,0,Escaped March 9,0,E
+2,HB,9,1,2,4,7,14,,,D M 18,,1,2,3,7,,13,0,D M 18,0,D
+2,HB,10,1,3,7,9,13,,,D M 18,,2,4,2,4,,12,0,D M 18,0,D
+2,HB,11,3,4,7,9,12,18,F,,,1,3,2,3,6,15,F,0,0,A
+2,HB,12,3,4,7,8,10,,,D M 18,,1,3,1,2,,7,0,D M 18,0,D
+2,HB,13,3,4,7,,,,,Dead March 10,,1,3,,,,4,0,Dead March 10,0,D
+2,HB,14,3,4,8,9,12,,,D M 18,,1,4,1,3,,9,0,D M 18,0,D
+2,HB,15,3,4,7,8,12,,,Dead March 12,,1,3,1,4,,9,0,Dead March 12,0,D
+2,HB,16,8,9,11,15,16,,,Dead March 26,,1,2,4,1,,8,0,Dead March 26,0,D
+2,HB,17,8,10,13,15,20,26,M,,,2,3,2,5,6,18,M,0,0,A
+2,HB,18,8,10,12,15,,,,D M 18,,2,2,3,,,7,0,D M 18,0,D
+2,HB,19,8,10,12,,15,,,D M 24,,2,2,1.5,1.5,,7,0,D M 24,0,D
+2,HPS,1,28,1,2,4,,,,D M18,,2,1,2,,,5,0,D M18,0,D
+2,HPS,2,28,29,2,4,8,,,D M 14,,1,2,2,4,,9,0,D M 14,0,D
+2,HPS,3,1,,4,7,8,,,D M14,,1.5,1.5,3,1,,7,0,D M14,0,D
+2,HPS,4,28,1,2,4,10,16,F,,,2,1,2,6,6,17,F,0,0,A
+2,HPS,5,28,1,,,,,,E M3,,2,,,,,2,0,E M3,0,E
+2,HPS,6,29,1,4,7,9,,,D M 18,,1,3,3,2,,9,0,D M 18,0,D
+2,HPS,7,29,1,4,7,9,,,D M14,,1,3,3,2,,9,0,D M14,0,D
+2,HPS,8,7,10,12,,,,,E M 19,,3,2,,,,5,0,E M 19,0,E
+2,HPS,9,29,1,,,,,,D M3,,1,,,,,1,0,D M3,0,D
+2,HPS,10,29,1,2,4,7,,,D M 18,,1,1,2,3,,7,0,D M 18,0,D
+2,HPS,11,7,9,12,,,,,D M 13,,2,3,,,,5,0,D M 13,0,D
+2,HPS,12,1,2,4,7,9,14,M,,,1,2,3,2,5,13,M,0,0,A
+2,HPS,13,1,2,4,7,9,16,M,,,1,2,3,2,7,15,M,0,0,A
+2,HPS,14,3,4,7,8,10,,,D M 18,,1,3,1,2,,7,0,D M 18,0,D
+2,HPS,15,3,4,7,9,10,,,D M 14,,1,3,2,1,,7,0,D M 14,0,D
+2,HPS,16,7,8,,,,,,D M11,,1,,,,,1,0,D M11,0,D
+2,HPS,17,8,9,11,,,,,D M16,,1,2,,,,3,0,D M16,0,D
+2,HPS,19,8,10,,,,,,D M11,,2,,,,,2,0,D M11,0,D
+2,HPS,20,8,10,12,16,,,,D M 18,,2,2,4,,,8,0,D M 18,0,D
+2,HPS,21,,,,,,,,EM9?,,,,,,,0,0,EM9?,0,E
+2,HPS,N9,3,4,8,11,,,,D M 16,,1,4,3,,,8,0,D M 16,0,D
+2,HR,1,28,1,3,7,9,15,M,,,2,2,4,2,6,16,M,0,0,A
+2,HR,2,28,1,3,7,9,,,D M 18,,2,2,4,2,,10,0,D M 18,0,D
+2,HR,3,28,29,1,,,,,Dead March 2,,1,1,,,,2,0,Dead March 2,0,D
+2,HR,4,28,1,2,4,7,15,M,,,2,1,2,3,8,16,M,0,0,A
+2,HR,5,29,1,4,7,10,,,D M 18,,1,3,3,3,,10,0,D M 18,0,D
+2,HR,6,29,,,,,,,D M 3,,,,,,,0,0,D M 3,0,D
+2,HR,7,29,,,,,,,Escape March 1,,,,,,,0,0,Escape March 1,0,E
+2,HR,8,29,1,3,7,,,,D M 18,,1,2,4,,,7,0,D M 18,0,D
+2,HR,9,29,1,4,7,8,,,D M 18,,1,3,3,1,,8,0,D M 18,0,D
+2,HR,10,29,,,,,,,Dead March 2,,,,,,,0,0,Dead March 2,0,D
+2,HR,11,1,2,7,8,12,,,D M 18,,1,5,1,4,,11,0,D M 18,0,D
+2,HR,12,1,,,,,,,Escape March 2,,,,,,,0,0,Escape March 2,0,E
+2,HR,13,1,2,4,7,13,22,F,,,1,2,3,6,9,21,F,0,0,A
+2,HR,14,1,2,,,,,,Escape March 4,,1,,,,,1,0,Escape March 4,0,E
+2,HR,15,1,3,4,,,,,Escape March 7,,2,1,,,,3,0,Escape March 7,0,E
+2,HR,N10,7,9,10,11,12,,,E M 14,,2,1,1,1,,5,0,E M 14,0,E
+2,HR,N12,7,8,10,12,15,,,D M 22,,1,2,2,3,,8,0,D M 22,0,D
+2,HR,N3,7,9,11,15,17,22,F,,,2,2,4,2,5,15,F,0,0,A
+2,HR,N6,7,,,,,,,Escape March 8,,,,,,,0,0,Escape March 8,0,E
+2,LB,1,7,8,11,14,18,23,F,,"""Ephestia changed Wd/Mon March 2 for all treat. , u=unknown cohort (was bulk rear w letter) , (set up more Summer) , (-new dishes R)"" above this section, and ""If I cant find a bug, I write E (date)? And keep for another day to be sure -If fold on agar, wipe w/ swab in 95%ethanol - replace Ephestia if moldy - bugs like to hide on mesh, under Ephestia"" below this section",1,3,3,4,5,16,F,0,"""Ephestia changed Wd/Mon March 2 for all treat. , u=unknown cohort (was bulk rear w letter) , (set up more Summer) , (-new dishes R)"" above this section, and ""If I cant find a bug, I write E (date)? And keep for another day to be sure -If fold on agar, wipe w/ swab in 95%ethanol - replace Ephestia if moldy - bugs like to hide on mesh, under Ephestia"" below this section",A
+2,LB,2,28,29,3,7,8,,,D M 18,,1,3,4,1,,9,0,D M 18,0,D
+2,LB,3,29,2,4,8,,,,D M 11,"doenst say ""D M 11"" on paper",2,2,4,,,8,0,D M 11,"doenst say ""D M 11"" on paper",D
+2,LB,4,29,2,4,8,11,17,F,,,2,2,4,3,6,17,F,0,0,A
+2,LB,5,29,2,4,7,10,15,F,,,2,2,3,3,5,15,F,0,0,A
+2,LB,6,29,1,3,7,10,15,F,,,1,2,4,3,5,15,F,0,0,A
+2,LB,7,8,10,12,14,18,,,D M 28,,2,2,2,4,,10,0,D M 28,0,D
+2,LB,8,29,1,3,7,8,15,F,,,1,2,4,1,7,15,F,0,0,A
+2,LB,9,1,3,7,9,12,,,D M 18,,2,4,2,3,,11,0,D M 18,0,D
+2,LB,10,1,2,4,7,,,,Dead March 9,,1,2,3,,,6,0,Dead March 9,0,D
+2,LB,11,1,3,4,9,,,,Dead March 14,,2,1,5,,,8,0,Dead March 14,0,D
+2,LB,12,1,3,7,9,11,,,Dead March 14,,2,4,2,2,,10,0,Dead March 14,0,D
+2,LB,13,8,,,,,,,Escaped March 10,,,,,,,0,0,Escaped March 10,0,E
+2,LB,14,3,4,7,12,15,,,D M 22,,1,3,5,3,,12,0,D M 22,0,D
+2,LB,15,3,7,10,12,15,,,d March 18 - mold,,4,3,2,3,,12,0,d March 18 - mold,0,D
+2,LB,"""New 13th""",17 (u),,,,,,,E M8,,#VALUE!,,,,,#VALUE!,0,E M8,0,E
+2,LR,1,28,29,4,7,,,,Dead March 11,,1,4,3,,,8,0,Dead March 11,0,D
+2,LR,2,28,1,7,9,,,,Dead March 10,,2,6,2,,,10,0,Dead March 10,0,D
+2,LR,3,28,1,,,,,,D M 4,,2,,,,,2,0,D M 4,0,D
+2,LR,4,28,2,4,7,11,,,D M 18,,3,2,3,4,,12,0,D M 18,0,D
+2,LR,5,29,1,4,7,10,,,D M 18?,,1,3,3,3,,10,0,D M 18?,0,D
+2,LR,6,29,1,4,7,10,17,M,,,1,3,3,3,7,17,M,0,0,A
+2,LR,7,29,1,7,13,15,18,F,,,1,6,6,2,3,18,F,0,0,A
+2,LR,8,29,2,4,,,,,D M 7,,2,2,,,,4,0,D M 7,0,D
+2,LR,9,29,1,4,8,10,,,D M 18,,1,3,4,2,,10,0,D M 18,0,D
+2,LR,10,29,1,4,8,11,18,F,,,1,3,4,3,7,18,F,0,0,A
+2,LR,11,1,2,,,,,,Dead March 13,,1,,,,,1,0,Dead March 13,0,D
+2,LR,12,3,4,7,9,14,20,F,,,1,3,2,5,6,17,F,0,0,A
+2,LR,13,3,4,7,,,,,Escape March 8,,1,3,,,,4,0,Escape March 8,0,E
+2,LR,14,3,4,7,,,,,Escape March 10,,1,3,,,,4,0,Escape March 10,0,E
+2,LR,15,7,8,,,,,,Escape March 10,,1,,,,,1,0,Escape March 10,0,E
+2,LR,N11,7,,,,,,,Dead March 8,,,,,,,0,0,Dead March 8,0,D
+2,LR,New 3,3,4,,,,,,MT,?,1,,,,,1,0,MT,?,U
+2,LR,New 7,,,,,,,,,?,,,,,,0,0,0,?,U
+2,S,1,25,,,,,,,Dead Feb 25,"""+ 2 Dead"" written at bottom of this section",,,,,,0,0,Dead Feb 25,"""+ 2 Dead"" written at bottom of this section",D
+2,S,2,29,,,,,,,Dead March 1,,,,,,,0,0,Dead March 1,0,D
+2,S,3,23,,24,26,27,29,M,,,0.5,0.5,2,1,2,6,M,0,0,A
+2,S,4,23,24,25,,,,,Dead Feb 29,,1,1,,,,2,0,Dead Feb 29,0,D
+2,S,6,23,,24,,,,,Dead Feb 29,,0.5,0.5,,,,1,0,Dead Feb 29,0,D
+2,S,7,25,26,27,29,1,3,F,,,1,1,2,1,2,7,F,0,0,A
+2,S,8,8,9,10,13,14,17,M,,,1,1,3,1,3,9,M,0,0,A
+2,S,9,24,25,26,,,,,Dead Feb 29,,1,1,,,,2,0,Dead Feb 29,0,D
+2,S,10,8,,,,,,,Escaped M 9,,,,,,,0,0,Escaped M 9,0,E
+2,S,11,24,25,26,,,,,Dead Feb 29,,1,1,,,,2,0,Dead Feb 29,0,D
+2,S,12,3,4,,7,10,11,F,,,1,1.5,1.5,3,1,8,F,0,0,A
+2,S,13,3,4,,7,10,11,M,,,1,1.5,1.5,3,1,8,M,0,0,A
+2,S,14,3,4,,,,,,Escaped March 8,,1,,,,,1,0,Escaped March 8,0,E
+2,S,15,3,4,,7,,,,Dead March 8,,1,1.5,1.5,,,4,0,Dead March 8,0,D
+2,S,16,8,9,10,12,13,15,F,,,1,1,2,1,2,7,F,0,0,A
+2,S,17,,,,,,,,EM9,,,,,,,0,0,EM9,0,E
+2,S,18,8,9,11,12,13,16,F,,,1,2,1,1,3,8,F,0,0,A
+2,S,19,8,9,10,12,13,15,F,,,1,1,2,1,2,7,F,0,0,A
+2,S,N1,3,4,,7,10,11,M,,,1,1.5,1.5,3,1,8,M,0,0,A
+2,S,N2,3,4,,7,9,10,M,,,1,1.5,1.5,2,1,7,M,0,0,A
+2,S,N3,3,4,,7,11,12,F,,,1,1.5,1.5,4,1,9,F,0,0,A
+2,S,N4,3,4,,7,9,11,M,,,1,1.5,1.5,2,2,8,M,0,0,A
+2,S,N5,3,4,,,,,,E M7,,1,,,,,1,0,E M7,0,E
+2,S,N6,3,4,,7,9,11,F,,,1,1.5,1.5,2,2,8,F,0,0,A
+2,W,1,27,1,2,4,8,,,Dead March 14,,3,1,2,4,,10,0,Dead March 14,0,D
+2,W,2,27,29,2,4,7,,,D M 18,,2,2,2,3,,9,0,D M 18,0,D
+2,W,3,27,29,2,4,7,17,F,,,2,2,2,3,10,19,F,0,0,A
+2,W,4,8,9,11,15,,,,D M 18,,1,2,4,,,7,0,D M 18,0,D
+2,W,5,27,28,2,4,7,13,M,,,1,3,2,3,6,15,M,0,0,A
+2,W,6,27,28,2,4,8,13,M,,,1,3,2,4,5,15,M,0,0,A
+2,W,7,27,28,2,4,8,,,Dead March 12,,1,3,2,4,,10,0,Dead March 12,0,D
+2,W,8,27,29,2,4,7,13,M,,,2,2,2,3,6,15,M,0,0,A
+2,W,9,8,9,11,15,16,,,,?,1,2,4,1,,8,0,0,?,U
+2,W,10,28,29,2,4,7,14,F,,,1,2,2,3,7,15,F,0,0,A
+2,W,11,28,29,2,5,7,17,F,,,1,2,3,2,10,18,F,0,0,A
+2,W,12,28,29,4,7,13,,,D M 17,,1,4,3,6,,14,0,D M 17,0,D
+2,W,13,28,29,2,4,7,15,M,,,1,2,2,3,8,16,M,0,0,A
+2,W,14,1,3,5,7,9,,,Dead March 13,,2,2,2,2,,8,0,Dead March 13,0,D
+2,W,15,1,2,4,7,10,,,D M 11,,1,2,3,3,,9,0,D M 11,0,D
+2,W,16,7,8,10,,,,,Dead March 14,,1,2,,,,3,0,Dead March 14,0,D
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
