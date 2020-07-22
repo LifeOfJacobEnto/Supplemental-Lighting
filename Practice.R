@@ -10,7 +10,7 @@ library(xlsx)
 library(ggplot2)
 
 # choose the wd
-setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git")
+setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Adult Life History")
 getwd()
 
 # get the data
@@ -445,6 +445,10 @@ ggplot(Complete, aes(x = as.factor(TreatmentName), y = OvipositionPeriod)) +
   geom_boxplot() +
   xlab("Treatment")
 
+# Summary stats for Oviposition Period (Mean, SD, SE, n)
+GroupedOvipositionsummary = Complete %>% group_by(TreatmentName) %>% summarise(Mean = mean(OvipositionPeriod), SD = sd(OvipositionPeriod), SE = sd(OvipositionPeriod)/sqrt(length(OvipositionPeriod)), n = length(OvipositionPeriod))
+GroupedOvipositionsummary
+
 # perform ANOVA and Tukey HSD on Oviposition Period
 OviANOVA = aov(Complete$OvipositionPeriod ~ Complete$TreatmentName)
 OviTukey = HSD.test(OviANOVA, trt = 'Complete$TreatmentName', group = TRUE)
@@ -463,6 +467,7 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
   geom_boxplot() + 
   xlab("Treatment") +
   ylab("Oviposition Period (days)") +
+  theme_classic() +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
@@ -476,6 +481,7 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
         geom_histogram() +
         xlab("Oviposition Period (days)") +
         ylab("Frequency") +
+        theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
     # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
       library("rstatix")
@@ -486,6 +492,7 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
+        theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
