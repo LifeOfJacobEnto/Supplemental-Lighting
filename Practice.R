@@ -274,7 +274,7 @@ ggplot(Complete, aes(x = DaysFAlive2020, y = TotalEggs)) +
   geom_smooth(method = lm) +
   theme_classic() 
 # There is a correlation between TotalEggs and DaysFAlive2020, so control for days alive by expressing fecundity as a rate?
-  # Problem: there are some pairs which lived a long time, but produced very few eggs, possibly because the male died early, or more likely because the beans were reused when there were no eggs found but if an egg was missed and then found later it could result in this error
+  # ? there are some pairs which lived a long time, but produced very few eggs, possibly because the male died early, or more likely because the beans were reused when there were no eggs found but if an egg was missed and then found later it could result in this error
 
 # Fecundity as rate 
 Complete$Eggsperfemaleperday = Complete$TotalEggs / Complete$DaysFAlive2020
@@ -351,7 +351,7 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
   # Could follow up with Effect Sizes?
   # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
-  
+# ? repeat analysis for just TotalEggs 
   
 # Pre-oviposition Period --------------------------------------------------
 
