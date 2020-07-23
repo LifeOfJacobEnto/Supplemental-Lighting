@@ -351,8 +351,10 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
   # Could follow up with Effect Sizes?
   # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
-# ? repeat analysis for just TotalEggs 
-  
+# ? repeat analysis for TotalEggs? to illustrate that Summer do produce eggs fast, but not very many because they die quickly
+
+
+
 # Pre-oviposition Period --------------------------------------------------
 
 # Transformations
