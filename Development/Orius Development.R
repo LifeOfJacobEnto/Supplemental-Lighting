@@ -137,14 +137,14 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
 # Percent Mortality Analysis ----------------------------------------------
 # Chi-squared Test of Independence ie. is the number of Dead individuals in/dependent on Treatment? from https://www.r-bloggers.com/chi-squared-test/
   Mortalitycontingency = table(Dev$Treatment, Dev$Fate)
-    # ? could use ftable(Dev$Block, Dev$Sex, Dev$Treatment, Dev$Fate) to separate by Block and Sex (maybe without Sex, since no sig diff), but doens't work for Chi-squared test, look into Mantel-Haenszel Chi-sqaured Test
+    # ? could use ftable(Dev$Block, Dev$Sex, Dev$Treatment, Dev$Fate) to separate by Block and Sex (maybe without Sex, since no sig diff), but doens't work for Chi-squared test, look into Mantel-Haenszel Chi-sqaured Test, from https://www.datacamp.com/community/tutorials/contingency-tables-r
 
   # Chi-squared Test
     chisq.test(Mortalitycontingency, correct = FALSE) # correct = FALSE so Yates continuity correction is NOT applied, as per Lecture 16 of Biostats
 
   # Barchart of %Mortality
-    # ? or percent stacked bar chart of %Survival and %Mortality
-
+    # ? or percent stacked bar chart of %Survival and %Mortality from https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html or https://www.datanovia.com/en/blog/how-to-create-a-ggplot-stacked-bar-chart-2/
+      
 
     
 # Tibial Lengths Analysis -------------------------------------------------
