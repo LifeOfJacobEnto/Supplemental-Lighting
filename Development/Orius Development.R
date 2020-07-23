@@ -122,7 +122,7 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
     # Levene's test
       # leveneTest(DevAdults$TotalDevelopment ~ DevAdults$Treatment * factor(DevAdults$Block), center = median)
       DevAdults %>% levene_test(formula = TotalDevelopment ~ Treatment * factor(Block) * factor(Sex), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
-        # ? does using all three x factors work?
+        # ? does using all three factors work?
 
 
 
