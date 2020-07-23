@@ -44,6 +44,7 @@ summary(Dev)
 Tdevsummary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Mean = mean(TotalDevelopment), SD = sd(TotalDevelopment), SE = sd(TotalDevelopment)/sqrt(length(TotalDevelopment)), n = length(TotalDevelopment))
 Tdevsummary
   # for Total and all Nymphal Instars (from https://dplyr.tidyverse.org/articles/colwise.html#multiple-functions-1trying, also https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645 )
+    # ? include individuals that didn't make it to adult instar (change DevAdults to Dev)?
   summarystatfunctions = list(
     Mean = ~ mean(.x), 
     SD = ~ sd(.x), 
@@ -52,7 +53,7 @@ Tdevsummary
   )
   Devsummaryallnymphalinstars = DevAdults %>% summarise(across(.cols = N1 : TotalDevelopment, .fns = summarystatfunctions, .names = "{col}.{fn}"))
   Devsummaryallnymphalinstars
-  # or usea  loop
+  # ? or use a loop?
 
 # Histograms 
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
@@ -70,7 +71,7 @@ ggplot(DevAdults, aes(x = TotalDevelopment, color = factor(Sex), fill = factor(S
 # multi-ANOVA including interaction effects (from http://www.sthda.com/english/wiki/two-way-anova-test-in-r)
 TdevANOVA= aov(DevAdults$TotalDevelopment ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
 summary(TdevANOVA)
-  # no significant difference between sexes so combined, and no interaction effects
+  # no significant difference between Sex so combined, and no interaction effects
 
 # Tukey HSD
 TdevTukeyTreatment = HSD.test(TdevANOVA, trt = 'DevAdults$Treatment', group = TRUE)
@@ -113,11 +114,11 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
       library("rstatix")
       DevAdults %>% group_by(Block, Sex) %>% shapiro_test(TotalDevelopment) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
-      ggplot(DevAdults, aes(sample = TotalDevelopment, color = factor(Block))) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
+      ggplot(DevAdults, aes(sample = TotalDevelopment, color = factor(Sex))) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
-        facet_wrap(~factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+        facet_wrap(~factor(Block) + factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
       # leveneTest(DevAdults$TotalDevelopment ~ DevAdults$Treatment * factor(DevAdults$Block), center = median)
