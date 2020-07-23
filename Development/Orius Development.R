@@ -123,7 +123,7 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
     # Levene's test
       # leveneTest(DevAdults$TotalDevelopment ~ DevAdults$Treatment * factor(DevAdults$Block), center = median)
       DevAdults %>% levene_test(formula = TotalDevelopment ~ Treatment * factor(Block) * factor(Sex), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
-        # ? does using all three factors work?
+        # ? does using all three factors work? Or group_by(Block, Sex) 
 
 
 
@@ -135,31 +135,18 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
 
 
 # Percent Mortality Analysis ----------------------------------------------
-
-Groupedmort = Mort %>% group_by(Trt)
-Mortblockcombined = Groupedmort %>% summarise(TotNo = sum(TotNo), NoD = sum(NoD))
-Mortblockcombined
-Percentmortcombined = Mortblockcombined %>% mutate(NoA = TotNo-NoD, PercentJuvenileMortality = (NoD/TotNo)*100, PercentSurvival = (NoA/TotNo)*100)
-Percentmortcombined
-
-ggplot(Percentmortcombined, aes(y = PercentJuvenileMortality, x = Trt)) +
-  geom_bar(stat = "identity") +
-  xlab("Treatment") +
-  ylab("Percent Mortality")
-
 # Chi-squared Test of Independence ie. is the number of Dead individuals in/dependent on Treatment? from https://www.r-bloggers.com/chi-squared-test/
+  Mortalitycontingency = table(Dev$Treatment, Dev$Fate)
+    # ? could use ftable(Dev$Block, Dev$Sex, Dev$Treatment, Dev$Fate) to separate by Block and Sex (maybe without Sex, since no sig diff), but doens't work for Chi-squared test, look into Mantel-Haenszel Chi-sqaured Test
 
-# need to make a contingency table of Treamtent as rows, and Alive vs. Dead as columns
-  # first remove the escaped and unknown individuals  
-    Mortalityminusescaped = filter()
+  # Chi-squared Test
+    chisq.test(Mortalitycontingency, correct = FALSE) # correct = FALSE so Yates continuity correction is NOT applied, as per Lecture 16 of Biostats
 
-  # then use table() function to make a contingency table from categorical data
-    Mortalitycontingency = Percentmortcombined %>% select(Trt, NoA, NoD)
-
-# Chi-squared Test
-chisq.test(Mortalitycontingency, correct = FALSE) # correct = FALSE so Yates continuity correction is NOT applied, as per Lecture 16 of Biostats
+  # Barchart of %Mortality
+    # ? or percent stacked bar chart of %Survival and %Mortality
 
 
+    
 # Tibial Lengths Analysis -------------------------------------------------
 
 
