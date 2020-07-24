@@ -396,6 +396,8 @@ ggplot(Complete, aes(sample = TotalEggs)) + # from https://ggplot2.tidyverse.org
 # Levene's test
 Complete %>% levene_test(formula = TotalEggs ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
+# ? should we remove pairs that did not oviposit from analysis? would likely make fecundity (and possibly longevity and preovi) Normal
+  
 
 
 # Pre-oviposition Period --------------------------------------------------
