@@ -293,7 +293,7 @@ ggplot(Complete, aes(x = as.factor(TreatmentName), y = Eggsperfemaleperday)) +
 GroupedFecunditysummary = Complete %>% group_by(TreatmentName) %>% summarise(Mean = mean(Eggsperfemaleperday), SD = sd(Eggsperfemaleperday), SE = sd(Eggsperfemaleperday)/sqrt(length(Eggsperfemaleperday)), n = length(Eggsperfemaleperday))
 GroupedFecunditysummary
 
-# perform ANOVA and Tukey HSD on Eggs/Female/Day
+# perform ANOVA and Tukey HSD on Fecundity (Eggs/Female/Day)
 FecundityANOVA = aov(Complete$Eggsperfemaleperday ~ Complete$TreatmentName)
 FecundityTukey = HSD.test(FecundityANOVA, trt = 'Complete$TreatmentName', group = TRUE)
 FecundityTukey
@@ -351,7 +351,50 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
   # Could follow up with Effect Sizes?
   # and pairwise-comparisons using Dunn's test or Wilcoxon's test?
 
-# ? repeat analysis for TotalEggs? to illustrate that Summer do produce eggs fast, but not very many because they die quickly
+# Repeat analysis for TotalEggs to illustrate that Summer do produce eggs fast, but not very many because they die quickly
+# Summary stats for TotalEggs (Mean, SD, SE, n)
+GroupedEggssummary = Complete %>% group_by(TreatmentName) %>% summarise(Mean = mean(TotalEggs), SD = sd(TotalEggs), SE = sd(TotalEggs)/sqrt(length(TotalEggs)), n = length(TotalEggs))
+GroupedEggssummary
+# perform ANOVA and Tukey HSD on TotalEggs
+EggsANOVA = aov(Complete$TotalEggs ~ Complete$TreatmentName)
+EggsTukey = HSD.test(EggsANOVA, trt = 'Complete$TreatmentName', group = TRUE)
+EggsTukey
+# Boxplot with significant groups
+Grouplabels = tbl_df(EggsTukey$groups["groups"])            # extract the significant groups from the tukey test and make it a tibble for easier manipulation (as a dataframe was causing problems)
+Grouplabels$TreatmentName = row.names(EggsTukey$groups)     # create a column with the TreatmentNames from the row names
+Max = EggsTukey$means["Max"]                                # extract the maximum value from the tukey test
+Maxtbl = as_tibble(Max, rownames = "TreatmentName")                       # make the maximum values into a tibble with a column for TreatmentNames (rather than just inserting the Max dataframe into Grouplabels tibble because then its still a dataframe str within the tibble which caused problems)
+Grouplabels = merge(Grouplabels, Maxtbl, by = "TreatmentName")            # merge the two tibbles by TreatmentName
+Grouplabels$aboveMax = Grouplabels$Max + 20                               # create a new column for placement above the max value
+Grouplabels
+absMax = max(Grouplabels$Max)
+ggplot(Complete, aes(y = TotalEggs, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered 
+  geom_boxplot() + 
+  xlab("Treatment") +
+  ylab("Fecundity (eggs/female)") +
+  theme_classic() +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
+    # to put labels all at same height, y = absMax + absMax*0.05
+# Histograms
+ggplot(Complete, aes(x = TotalEggs)) + 
+  geom_histogram() +
+  xlab("Fecundity (eggs/female)") +
+  ylab("Frequency") +
+  theme_classic() +
+  facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+# Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
+library("rstatix")
+Groupedcomplete = Complete %>% group_by(TreatmentName)
+Groupedcomplete %>% shapiro_test(TotalEggs) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
+# Q-Q Plots
+ggplot(Complete, aes(sample = TotalEggs)) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
+  stat_qq() + stat_qq_line() +
+  xlab("Theoretical") +
+  ylab("Sample") +
+  theme_classic() +
+  facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+# Levene's test
+Complete %>% levene_test(formula = TotalEggs ~ TreatmentName, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
 
 
 
