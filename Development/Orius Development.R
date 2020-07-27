@@ -41,19 +41,16 @@ summary(Dev)
     # Log transformation results in nearly identical results to untransformed data
 
 # Summary stats for Development (Mean, SD, SE, n)
-Tdevsummary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Mean = mean(TotalDevelopment), SD = sd(TotalDevelopment), SE = sd(TotalDevelopment)/sqrt(length(TotalDevelopment)), n = length(TotalDevelopment))
-Tdevsummary
-  # for Total and all Nymphal Instars (from https://dplyr.tidyverse.org/articles/colwise.html#multiple-functions-1trying, also https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645 )
-    # ? include individuals that didn't make it to adult instar (change DevAdults to Dev)?
-  summarystatfunctions = list(
-    Mean = ~ mean(.x), 
-    SD = ~ sd(.x), 
-    SE = ~ sd(.x)/sqrt(length(.x)), 
-    n = ~ length(.x)
-  )
-  Devsummaryallnymphalinstars = DevAdults %>% summarise(across(.cols = N1 : TotalDevelopment, .fns = summarystatfunctions, .names = "{col}.{fn}"))
-  Devsummaryallnymphalinstars
-  # ? or use a loop?
+Tdevsummary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "Total", Mean = mean(TotalDevelopment), SD = sd(TotalDevelopment), SE = sd(TotalDevelopment)/sqrt(length(TotalDevelopment)), n = length(TotalDevelopment))
+N1summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N1", Mean = mean(N1), SD = sd(N1), SE = sd(N1)/sqrt(length(N1)), n = length(N1))
+N2summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N2", Mean = mean(N2), SD = sd(N2), SE = sd(N1)/sqrt(length(N2)), n = length(N2))
+N3summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N3", Mean = mean(N3), SD = sd(N3), SE = sd(N1)/sqrt(length(N3)), n = length(N3))
+N4summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N4", Mean = mean(N4), SD = sd(N4), SE = sd(N1)/sqrt(length(N4)), n = length(N4))
+N5summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N5", Mean = mean(N5), SD = sd(N5), SE = sd(N1)/sqrt(length(N5)), n = length(N5))
+DevAdultssummary = rbind(Tdevsummary, N1summary, N2summary, N3summary, N4summary, N5summary)
+# ^ is easiest, but could also try:
+  # or Total and all Nymphal Instars (from https://dplyr.tidyverse.org/articles/colwise.html#multiple-functions-1trying, also https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645 )
+  # or use a loop
 
 # Histograms 
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
@@ -63,10 +60,6 @@ ggplot(DevAdults, aes(x = TotalDevelopment, color = factor(Sex), fill = factor(S
   ylab("Frequency") +
   theme_classic() +
   facet_wrap(~factor(Block) + factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
-# then for all Nymphal Instars
-  # ? need nymphal instar in long form?
-
-# ? make Nymphal Instar Development Time into long format?
 
 # multi-ANOVA including interaction effects (from http://www.sthda.com/english/wiki/two-way-anova-test-in-r)
 TdevANOVA= aov(DevAdults$TotalDevelopment ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
@@ -148,5 +141,4 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
 
     
 # Tibial Lengths Analysis -------------------------------------------------
-
 
