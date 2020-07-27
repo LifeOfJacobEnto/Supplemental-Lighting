@@ -48,6 +48,7 @@ N3summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar =
 N4summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N4", Mean = mean(N4), SD = sd(N4), SE = sd(N1)/sqrt(length(N4)), n = length(N4))
 N5summary = DevAdults %>% group_by(Block, Treatment, Sex) %>% summarise(Instar = "N5", Mean = mean(N5), SD = sd(N5), SE = sd(N1)/sqrt(length(N5)), n = length(N5))
 DevAdultssummary = rbind(Tdevsummary, N1summary, N2summary, N3summary, N4summary, N5summary)
+DevAdultssummarywide = DevAdultssummary %>% gather(Statistic, Value, Mean:n) %>% spread(key = Instar, value = Value)
 # ^ is easiest, but could also try:
   # or Total and all Nymphal Instars (from https://dplyr.tidyverse.org/articles/colwise.html#multiple-functions-1trying, also https://dplyr.tidyverse.org/reference/group_by.html and https://community.rstudio.com/t/summarise-multiple-columns-using-multiple-functions-in-a-tidy-way/8645 )
   # or use a loop
@@ -76,6 +77,7 @@ Tdevmeansplot =
   ggplot(data = Tdevsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = Block, col = Block)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
   geom_line() + 
   geom_point() +
+  theme_classic() +
   ylab("Mean Total Development (days)")
   # geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
 Tdevmeansplot
@@ -94,8 +96,10 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
   geom_boxplot(aes(color = factor(Block))) + 
   xlab("Treatment") +
   ylab("Total Development (days)") +
+  theme_classic() +
   geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+# ? separate Sex by using texture for Block?
 
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
@@ -111,34 +115,77 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
         stat_qq() + stat_qq_line() +
         xlab("Theoretical") +
         ylab("Sample") +
+        theme_classic() +
         facet_wrap(~factor(Block) + factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
-      # leveneTest(DevAdults$TotalDevelopment ~ DevAdults$Treatment * factor(DevAdults$Block), center = median)
-      DevAdults %>% levene_test(formula = TotalDevelopment ~ Treatment * factor(Block) * factor(Sex), center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
-        # ? does using all three factors work? Or group_by(Block, Sex) 
-
+      DevAdults %>% levene_test(formula = TotalDevelopment ~ factor(Block) * Treatment * Sex, center = median) # from https://www.datanovia.com/en/lessons/homogeneity-of-variance-test-in-r/
+        # ? does using all three factors work? Or group_by(Block, Sex) , or just group_by(Block) because Sex is not sig diff
 
 
 # Repeat for all Nymphal Instars
-  # ? need in Long form?
+  N1ANOVA= aov(DevAdults$N1 ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+  N2ANOVA= aov(DevAdults$N2 ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+  N3ANOVA= aov(DevAdults$N3 ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+  N4ANOVA= aov(DevAdults$N4 ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+  N5ANOVA= aov(DevAdults$N5 ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+  summary(N1ANOVA)
+  summary(N2ANOVA)
+  summary(N3ANOVA)
+  summary(N4ANOVA)
+  summary(N5ANOVA)
+  N1TukeyTreatment = HSD.test(N1ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
+  N2TukeyTreatment = HSD.test(N2ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
+  N3TukeyTreatment = HSD.test(N3ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
+  N4TukeyTreatment = HSD.test(N4ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
+  N5TukeyTreatment = HSD.test(N5ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
+  N1TukeyTreatment$groups
+  N2TukeyTreatment$groups
+  N3TukeyTreatment$groups
+  N4TukeyTreatment$groups
+  N5TukeyTreatment$groups
+  
+  # or make a function
+    BoxplotSig = function(Instar, title = "Title") {
+      ANOVA = aov(Instar ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+
+      TukeyTreatment = HSD.test(ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
+
+      Grouplabels = tbl_df(TukeyTreatment$groups["groups"])
+      Grouplabels$Treatment = row.names(TukeyTreatment$groups)
+      Max = TukeyTreatment$means["Max"]
+      Maxtbl = as_tibble(Max, rownames = "Treatment")
+      Grouplabels = merge(Grouplabels, Maxtbl, by = "Treatment")
+      Grouplabels$aboveMax = Grouplabels$Max + 1
+      absMax = max(Grouplabels$Max)
+      Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
+      ggplot(DevAdults, aes(y = Instar, x = factor(Treatment, levels = Treatmentlevelsorder))) +
+        geom_boxplot(aes(color = factor(Block))) +
+        xlab("Treatment") +
+        ylab("Development Time (days)") +
+        ggtitle(title) +
+        theme_classic() +
+        geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups))
+    }
+
 
 # ? Combine into multi-boxplot?
+      # ? need Instar in long form?
 
 
 
-# Percent Mortality Analysis ----------------------------------------------
-# Chi-squared Test of Independence ie. is the number of Dead individuals in/dependent on Treatment? from https://www.r-bloggers.com/chi-squared-test/
+# Percent Nymphal Mortality Analysis ----------------------------------------------
+# Chi-squared Test of Independence ie. is the number of Dead individuals independent (p > alpha 0.05) or dependent(p < alpha 0.05) on Treatment? from https://www.r-bloggers.com/chi-squared-test/
   Mortalitycontingency = table(Dev$Treatment, Dev$Fate)
     # ? could use ftable(Dev$Block, Dev$Sex, Dev$Treatment, Dev$Fate) to separate by Block and Sex (maybe without Sex, since no sig diff), but doens't work for Chi-squared test, look into Mantel-Haenszel Chi-sqaured Test, from https://www.datacamp.com/community/tutorials/contingency-tables-r
+  chisq.test(Mortalitycontingency, correct = FALSE) # correct = FALSE so Yates continuity correction is NOT applied, as per Lecture 16 of Biostats
+   # ? repeat for each Treatment separated by Block and Sex using filter
+    
+# Barchart of %Mortality to visualize the significant difference
+  # ? or percent stacked bar chart of %Survival and %Mortality from https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html or https://www.datanovia.com/en/blog/how-to-create-a-ggplot-stacked-bar-chart-2/
 
-  # Chi-squared Test
-    chisq.test(Mortalitycontingency, correct = FALSE) # correct = FALSE so Yates continuity correction is NOT applied, as per Lecture 16 of Biostats
-
-  # Barchart of %Mortality
-    # ? or percent stacked bar chart of %Survival and %Mortality from https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html or https://www.datanovia.com/en/blog/how-to-create-a-ggplot-stacked-bar-chart-2/
-      
-
+# ? combine treatments W and W2
     
 # Tibial Lengths Analysis -------------------------------------------------
 
+# ? add the two measurements Dana made, see email
