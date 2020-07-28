@@ -24,8 +24,8 @@ getwd()
 Dev = tbl_df(read.csv("Consolidated-Orius-Development-JB2020-Raw-Development-Openrefined.csv", header = TRUE))
 head(Dev)
 dim(Dev)
-#remove Escaped or Unknown
-Dev = Dev %>% filter(Fate == "A" | Fate == "D") # | is OR
+# remove Escaped or Unknown
+  # Dev = Dev %>% filter(Fate == "A" | Fate == "D") # | is OR
 
 DevAdults = Dev %>% filter(Fate == "A")
 dim(DevAdults)
@@ -58,11 +58,13 @@ DevAdultssummarywide = DevAdultssummary %>% gather(Statistic, Value, Mean:n) %>%
 
 # Histograms 
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
-ggplot(DevAdults, aes(x = TotalDevelopment, color = factor(Sex), fill = factor(Sex))) +
+ggplot(DevAdults, aes(x = as.numeric(TotalDevelopment), color = factor(Sex), fill = factor(Sex))) +
   geom_histogram() +
   xlab("Total Development (days)") +
   ylab("Frequency") +
   theme_classic() +
+  scale_fill_grey() +
+  scale_color_manual(values=c("#999999","#999999")) +
   facet_wrap(~factor(Block) + factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
 
 # multi-ANOVA including interaction effects (from http://www.sthda.com/english/wiki/two-way-anova-test-in-r)
@@ -77,10 +79,11 @@ TdevTukeyTreatment
 # make a means plot to illustrate any interaction effect
 level_order <- c('W', 'S', 'HPS', 'HB', 'HR', 'LB', 'LR')
 Tdevmeansplot = 
-  ggplot(data = Tdevsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = Block, col = Block)) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
+  ggplot(data = Tdevsummary, aes(y = Mean, x = factor(Treatment, levels = level_order), group = factor(Block), col = factor(Block))) + # (from http://www.sthda.com/english/wiki/ggplot2-error-bars-quick-start-guide-r-software-and-data-visualization)
   geom_line() + 
   geom_point() +
   theme_classic() +
+  scale_color_grey() +
   ylab("Mean Total Development (days)")
   # geom_errorbar(aes(ymin=Mean-SE, ymax=Mean+SE)) # to give error bars of +-SE
 Tdevmeansplot
@@ -96,10 +99,12 @@ Grouplabels
 absMax = max(Grouplabels$Max)
 Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
 ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treatmentlevelsorder))) +
-  geom_boxplot(aes(color = factor(Block))) + 
+  geom_boxplot(aes(color = factor(Block), fill = factor(Block))) + 
   xlab("Treatment") +
   ylab("Total Development (days)") +
   theme_classic() +
+  scale_fill_grey() +
+  scale_color_manual(values=c("#999999","#999999")) +
   geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 # ? separate Sex by using texture for Block?
@@ -119,6 +124,7 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
         xlab("Theoretical") +
         ylab("Sample") +
         theme_classic() +
+        scale_color_grey() +
         facet_wrap(~factor(Block) + factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
   # equal variance across populations "homogeneity of variance" "homoscedasticity" 
     # Levene's test
@@ -163,11 +169,13 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
       absMax = max(Grouplabels$Max)
       Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
       ggplot(DevAdults, aes(y = Instar, x = factor(Treatment, levels = Treatmentlevelsorder))) +
-        geom_boxplot(aes(color = factor(Block))) +
+        geom_boxplot(aes(color = factor(Block), fill = factor(Block))) + 
         xlab("Treatment") +
-        ylab("Development Time (days)") +
-        ggtitle(title) +
+        ylab("Total Development (days)") +
         theme_classic() +
+        scale_fill_grey() +
+        scale_color_manual(values=c("#999999","#999999")) +
+        ggtitle(title) +
         geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups))
     }
 
