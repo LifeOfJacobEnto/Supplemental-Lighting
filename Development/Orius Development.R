@@ -23,9 +23,12 @@ getwd()
 # Development Rate
 Dev = tbl_df(read.csv("Consolidated-Orius-Development-JB2020-Raw-Development-Openrefined.csv", header = TRUE))
 head(Dev)
+dim(Dev)
+#remove Escaped or Unknown
+Dev = Dev %>% filter(Fate == "A" | Fate == "D") # | is OR
 
 DevAdults = Dev %>% filter(Fate == "A")
-
+dim(DevAdults)
 # Tibial Length
 
 
