@@ -9,6 +9,7 @@ library(tidyverse)
 library("agricolae")
 library("ggplot2")
 library("gplots")
+library("rstatix")
 
 
 # Choose the wd
@@ -24,7 +25,7 @@ getwd()
 Dev = tbl_df(read.csv("Consolidated-Orius-Development-JB2020-Raw-Development-Openrefined.csv", header = TRUE))
 head(Dev)
 dim(Dev)
-# remove Escaped or Unknown
+# remove Escaped or Unknown (already done in OpenRefine, but is not saved in JSON script)
   # Dev = Dev %>% filter(Fate == "A" | Fate == "D") # | is OR
 
 DevAdults = Dev %>% filter(Fate == "A")
@@ -107,7 +108,7 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
   scale_color_manual(values=c("#999999","#999999")) +
   geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
-# ? separate Sex by using texture for Block?
+# ? separate Sex by using texture for Block? or facet_wrap
 
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
@@ -116,7 +117,6 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
   # Normal distribution of each populaiton (ie under each treatment)
     # Histograms
     # Shapiro-Wilk or Kolmogorov-Smirnov (Lilliefors) tests
-      library("rstatix")
       DevAdults %>% group_by(Block, Sex) %>% shapiro_test(TotalDevelopment) # from https://www.datanovia.com/en/lessons/normality-test-in-r/
     # Q-Q Plots
       ggplot(DevAdults, aes(sample = TotalDevelopment, color = factor(Sex))) + # from https://ggplot2.tidyverse.org/reference/geom_qq.html or https://www.datanovia.com/en/lessons/ggplot-qq-plot/
@@ -199,4 +199,47 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
     
 # Tibial Lengths Analysis -------------------------------------------------
 
-# ? add the two measurements Dana made, see email
+Tibia = tbl_df(read.csv("Consolidated-Orius-Development-JB2020-Raw-Tibia-Length-Openrefined.csv", header = TRUE))
+head(Tibia)
+dim(Tibia)
+
+# merge Tibia with Development time so Sex is combined with Tibia Length
+Tibiawsex = merge(Tibia, DevAdults, by = c("Block", "Treatment", "Cell.Plate.."))
+
+# Summary stats for Tibia Length (Mean, SD, SE, n)
+Tibsummary = Tibiawsex %>% group_by(Block, Treatment, Sex) %>% summarise(Mean = mean(TibiaLengthmm), SD = sd(TibiaLengthmm), SE = sd(TibiaLengthmm)/sqrt(length(TibiaLengthmm)), n = length(TibiaLengthmm))
+Tibsummary
+
+# Histograms 
+Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
+ggplot(Tibiawsex, aes(x = as.numeric(TibiaLengthmm), color = factor(Sex), fill = factor(Sex))) +
+  geom_histogram() +
+  xlab("Tibia Length (mm)") +
+  ylab("Frequency") +
+  theme_classic() +
+  scale_fill_grey() +
+  scale_color_manual(values=c("#999999","#999999")) +
+  facet_wrap(~factor(Block) + factor(Treatment, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
+
+# multi-ANOVA including interaction effects
+TibANOVA= aov(Tibiawsex$TibiaLengthmm ~ Tibiawsex$Block + Tibiawsex$Treatment + Tibiawsex$Sex + Tibiawsex$Block:Tibiawsex$Treatment + Tibiawsex$Block:Tibiawsex$Sex + Tibiawsex$Treatment:Tibiawsex$Sex)
+summary(TibANOVA)
+# no significant differences or interaction effects
+
+# Boxplot 
+ggplot(Tibiawsex, aes(y = TibiaLengthmm, x = factor(Treatment, levels = Treatmentlevelsorder))) +
+  geom_boxplot() + # aes(color = factor(Sex), fill = factor(Sex))) + 
+  xlab("Treatment") +
+  ylab("Tibia Length (mm)") +
+  theme_classic()
+  # scale_fill_grey() +
+  # scale_color_manual(values=c("#999999","#999999")) +
+  # facet_wrap(~factor(Block), scales = "fixed")
+
+# Assumptions
+# Shapiro-Wilk test for normality
+Tibiawsex %>% group_by(Block, Sex) %>% shapiro_test(TibiaLengthmm)
+# Levene's test for homogeneity of variances
+Tibiawsex %>% levene_test(formula = TibiaLengthmm ~ factor(Block) * Treatment * Sex, center = median)
+
+

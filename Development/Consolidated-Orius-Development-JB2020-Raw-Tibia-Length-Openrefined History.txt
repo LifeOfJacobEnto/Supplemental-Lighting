@@ -1,0 +1,46 @@
+[
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Block (1 = from Orius Development JB2020.xlsx, 2 = from Orius Development 2 JB2020.xlsx)",
+    "newColumnName": "Block",
+    "description": "Rename column Block (1 = from Orius Development JB2020.xlsx, 2 = from Orius Development 2 JB2020.xlsx) to Block"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Tibia Length (mm = 5 ocular units)",
+    "newColumnName": "TibiaLengthmm",
+    "description": "Rename column Tibia Length (mm = 5 ocular units) to TibiaLengthmm"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Tibia Length (ocular units, 50x magnification)",
+    "newColumnName": "TibiaLengthou",
+    "description": "Rename column Tibia Length (ocular units, 50x magnification) to TibiaLengthou"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "TibiaLengthmm",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column TibiaLengthmm using expression value.toNumber()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "TibiaLengthou",
+    "expression": "value.toNumber()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column TibiaLengthou using expression value.toNumber()"
+  }
+]
