@@ -108,7 +108,7 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
   scale_color_manual(values=c("#999999","#999999")) +
   geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
-# ? separate Sex by using texture for Block? or facet_wrap
+  # ? separate Sex by using texture for Block? or facet_wrap
 
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
@@ -155,8 +155,8 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
   N5TukeyTreatment$groups
   
   # or make a function
-    BoxplotSig = function(Instar, title = "Title") {
-      ANOVA = aov(Instar ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
+    BoxplotSig = function(instar, title = "title") {
+      ANOVA = aov(instar ~ DevAdults$Block + DevAdults$Treatment + DevAdults$Sex + DevAdults$Block:DevAdults$Treatment + DevAdults$Block:DevAdults$Sex + DevAdults$Treatment:DevAdults$Sex)
 
       TukeyTreatment = HSD.test(ANOVA, trt = 'DevAdults$Treatment', group = TRUE)
 
@@ -168,7 +168,7 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
       Grouplabels$aboveMax = Grouplabels$Max + 1
       absMax = max(Grouplabels$Max)
       Treatmentlevelsorder = c("S", "W", "HPS", "HB", "HR", "LB", "LR")
-      ggplot(DevAdults, aes(y = Instar, x = factor(Treatment, levels = Treatmentlevelsorder))) +
+      ggplot(DevAdults, aes(y = instar, x = factor(Treatment, levels = Treatmentlevelsorder))) +
         geom_boxplot(aes(color = factor(Block), fill = factor(Block))) + 
         xlab("Treatment") +
         ylab("Total Development (days)") +
@@ -178,7 +178,6 @@ ggplot(DevAdults, aes(y = TotalDevelopment, x = factor(Treatment, levels = Treat
         ggtitle(title) +
         geom_text(data = Grouplabels, aes(x = Treatment, y = aboveMax, label = groups))
     }
-
 
 # ? Combine into multi-boxplot?
       # ? need Instar in long form?

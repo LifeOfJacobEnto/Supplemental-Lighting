@@ -224,6 +224,22 @@ ggplot(CompleteSexcombined, aes(y = DaysAlive2020, x = factor(TreatmentName, lev
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
+# Bar graph of Mean with SE and significant groups (from http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization)
+Grouplabels = tbl_df(LongevityTukeyTreatment$groups["groups"])
+Grouplabels$TreatmentName = row.names(LongevityTukeyTreatment$groups)
+MaxGroupedLongevitysummary = GroupedLongevitysummary %>% filter(Mean == max(Mean)) # take the larger mean of the M/F pair 
+Grouplabels = merge(Grouplabels, MaxGroupedLongevitysummary, by = "TreatmentName")
+Grouplabels$aboveMax = Grouplabels$Mean + Grouplabels$SE + (median(Grouplabels$Mean+Grouplabels$SE))*0.1 # put the labels above the Mean+SE
+Grouplabels = Grouplabels %>% arrange(Mean) # order the treatments by Mean
+ggplot(GroupedLongevitysummary, aes(y = Mean, x = factor(TreatmentName, levels = Grouplabels$TreatmentName), fill = Sex)) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), width = 0.5, position = position_dodge(0.9)) +
+  xlab("Treatment") +
+  ylab("Longevity (days)") +
+  theme_classic() +
+  scale_fill_grey() +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups))
+
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
   # samples are independently selected ie. not paired across the treatments
@@ -315,6 +331,22 @@ ggplot(Complete, aes(y = Eggsperfemaleperday, x = factor(TreatmentName, levels =
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
 
+# Bar graph of Mean with SE and significant groups (from http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization)
+Grouplabels = tbl_df(FecundityTukey$groups["groups"])
+Grouplabels$TreatmentName = row.names(FecundityTukey$groups)
+Grouplabels = merge(Grouplabels, GroupedFecunditysummary, by = "TreatmentName")
+Grouplabels$aboveMax = Grouplabels$Mean + Grouplabels$SE + (median(Grouplabels$Mean+Grouplabels$SE))*0.1 # put the labels above the Mean+SE
+Grouplabels = Grouplabels %>% arrange(Mean) # order the treatments by Mean
+Grouplabels
+ggplot(GroupedFecunditysummary, aes(y = Mean, x = factor(TreatmentName, levels = Grouplabels$TreatmentName))) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), width = 0.25, position = position_dodge(0.9)) +
+  xlab("Treatment") +
+  ylab("Fecundity (eggs/female/day)") +
+  theme_classic() +
+  scale_fill_grey() +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups))
+
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
   # samples are independently selected ie. not paired across the treatments
@@ -375,6 +407,21 @@ ggplot(Complete, aes(y = TotalEggs, x = factor(TreatmentName, levels = Treatment
   theme_classic() +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+# Bar graph of Mean with SE and significant groups (from http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization)
+Grouplabels = tbl_df(EggsTukey$groups["groups"])
+Grouplabels$TreatmentName = row.names(EggsTukey$groups)
+Grouplabels = merge(Grouplabels, GroupedEggssummary, by = "TreatmentName")
+Grouplabels$aboveMax = Grouplabels$Mean + Grouplabels$SE + (median(Grouplabels$Mean+Grouplabels$SE))*0.1 # put the labels above the Mean+SE
+Grouplabels = Grouplabels %>% arrange(Mean) # order the treatments by Mean
+Grouplabels
+ggplot(GroupedEggssummary, aes(y = Mean, x = factor(TreatmentName, levels = Grouplabels$TreatmentName))) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), width = 0.25, position = position_dodge(0.9)) +
+  xlab("Treatment") +
+  ylab("Fecundity (eggs/female)") +
+  theme_classic() +
+  scale_fill_grey() +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups))
 # Histograms
 ggplot(Complete, aes(x = TotalEggs)) + 
   geom_histogram() +
@@ -400,7 +447,7 @@ Complete %>% levene_test(formula = TotalEggs ~ TreatmentName, center = median) #
   
 
 
-# Pre-oviposition Period --------------------------------------------------
+# Preoviposition Period --------------------------------------------------
 
 # Transformations
   # Complete$PreOvipositionPeriod = sqrt(Complete$PreOvipositionPeriod)
@@ -408,7 +455,7 @@ Complete %>% levene_test(formula = TotalEggs ~ TreatmentName, center = median) #
   # Complete$PreOvipositionPeriod = log(Complete$PreOvipositionPeriod)
     # Log transformation results in errors because log(0) is undefined
 
-# Summary stats for Pre-oviposition Period (Mean, SD, SE, n)
+# Summary stats for Preoviposition Period (Mean, SD, SE, n)
 GroupedPreovipositionsummary = Complete %>% group_by(TreatmentName) %>% summarise(Mean = mean(PreOvipositionPeriod), SD = sd(PreOvipositionPeriod), SE = sd(PreOvipositionPeriod)/sqrt(length(PreOvipositionPeriod)), n = length(PreOvipositionPeriod))
 GroupedPreovipositionsummary
 
@@ -435,10 +482,26 @@ absMax = max(Grouplabels$Max)
 ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels = Treatmentlevelsorder))) + # plot, with Treatments ordered 
   geom_boxplot() + 
   xlab("Treatment") +
-  ylab("Pre-oviposition Period (days)") +
+  ylab("Preoviposition Period (days)") +
   theme_classic() +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+
+# Bar graph of Mean with SE and significant groups (from http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization)
+Grouplabels = tbl_df(PreoviTukey$groups["groups"])
+Grouplabels$TreatmentName = row.names(PreoviTukey$groups)
+Grouplabels = merge(Grouplabels, GroupedPreovipositionsummary, by = "TreatmentName")
+Grouplabels$aboveMax = Grouplabels$Mean + Grouplabels$SE + (median(Grouplabels$Mean+Grouplabels$SE))*0.1 # put the labels above the Mean+SE
+Grouplabels = Grouplabels %>% arrange(Mean) # order the treatments by Mean
+Grouplabels
+ggplot(GroupedPreovipositionsummary, aes(y = Mean, x = factor(TreatmentName, levels = Grouplabels$TreatmentName))) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), width = 0.25, position = position_dodge(0.9)) +
+  xlab("Treatment") +
+  ylab("Preoviposition Period (days)") +
+  theme_classic() +
+  scale_fill_grey() +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups))
 
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
@@ -448,7 +511,7 @@ ggplot(Complete, aes(y = PreOvipositionPeriod, x = factor(TreatmentName, levels 
     # Histograms
       ggplot(Complete, aes(x = PreOvipositionPeriod)) + 
         geom_histogram() +
-        xlab("Pre-oviposition Period (days)") +
+        xlab("Preoviposition Period (days)") +
         ylab("Frequency") +
         theme_classic() +
         facet_wrap(~factor(TreatmentName, levels = Treatmentlevelsorder), ncol = 3, scales = "fixed")
@@ -517,6 +580,22 @@ ggplot(Complete, aes(y = OvipositionPeriod, x = factor(TreatmentName, levels = T
   theme_classic() +
   geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups)) # apply the labels from the tibble
     # to put labels all at same height, y = absMax + absMax*0.05
+
+# Bar graph of Mean with SE and significant groups (from http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization)
+Grouplabels = tbl_df(OviTukey$groups["groups"])
+Grouplabels$TreatmentName = row.names(OviTukey$groups)
+Grouplabels = merge(Grouplabels, GroupedOvipositionsummary, by = "TreatmentName")
+Grouplabels$aboveMax = Grouplabels$Mean + Grouplabels$SE + (median(Grouplabels$Mean+Grouplabels$SE))*0.1 # put the labels above the Mean+SE
+Grouplabels = Grouplabels %>% arrange(Mean) # order the treatments by Mean
+Grouplabels
+ggplot(GroupedOvipositionsummary, aes(y = Mean, x = factor(TreatmentName, levels = Grouplabels$TreatmentName))) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE), width = 0.25, position = position_dodge(0.9)) +
+  xlab("Treatment") +
+  ylab("Oviposition Period (days)") +
+  theme_classic() +
+  scale_fill_grey() +
+  geom_text(data = Grouplabels, aes(x = TreatmentName, y = aboveMax, label = groups))
 
 # Assumptions
   # individuals are randomly sampled (randomly selected from the colony)
