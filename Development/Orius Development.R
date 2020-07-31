@@ -13,8 +13,9 @@ library("rstatix")
 
 
 # Choose the wd
-setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Development")
-#setwd("./Openrefined data") # "." refers to the file that this script is already in
+setwd(choose.dir())
+# setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Development")
+# setwd("./Openrefined data") # "." refers to the file that this script is already in
 getwd()
 
 

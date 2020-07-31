@@ -10,7 +10,8 @@ library(xlsx)
 library(ggplot2)
 
 # choose the wd
-setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Adult Life History")
+setwd(choose.dir())
+# setwd("C:/Users/Jacob/Documents/Harrow 2020/Supplimental Lighting Experiments/Supplemental-Lighting-Git/Adult Life History")
 getwd()
 
 # get the data
